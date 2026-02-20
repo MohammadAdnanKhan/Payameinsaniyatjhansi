@@ -1,0 +1,82 @@
+.modern-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.55rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 500;
+
+  border-radius: 12px;
+
+  background: var(--btn-bg);
+  color: var(--btn-text);
+
+  border: var(--btn-border-width) solid var(--btn-border);
+
+  cursor: pointer;
+  overflow: hidden;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+.modern-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: var(--btn-border-width);
+  border-radius: inherit;
+
+background: linear-gradient(
+  120deg,
+  transparent 44%,
+  rgba(255, 204, 102, 0.45),  
+  rgba(255, 230, 160, 0.75),  
+  rgba(255, 204, 102, 0.45),
+  transparent 56%
+);
+
+  background-size: 300% 300%;
+
+  opacity: 0.15;         
+  animation: borderIdle 8s linear infinite;
+
+  --webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+.modern-btn:hover::before,
+.modern-btn:focus-visible::before {
+  opacity: 0.5;
+  animation: borderActive 2.5s linear infinite;
+}
+
+.modern-btn:hover {
+  background: var(--btn-hover-bg);
+  transform: translateY(-1px);
+}
+
+.modern-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--btn-glow) 35%, transparent);
+}
+
+@keyframes borderIdle {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes borderActive {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
