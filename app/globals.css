@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #16a34a;
+  --color-secondary: #1e3a8a;
+  --color-accent: #fde047;
+  --color-muted: #f8fafc;
+  /* --theme: #f0fdf4; */
+  --theme: #dcfce7;
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --boldtheme: #c7eed8;
+  --color-primary-hover: #15803d;    
+  --color-secondary-hover: #1e40af;  
+
+  --font-heading: "Poppins", system-ui, sans-serif;
+  --font-body: "Source Sans 3", system-ui, sans-serif;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e5e7eb;
+  --color-muted: #020617;
+  --color-accent: #facc15;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-muted: var(--color-muted);
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
+}
+
+body {
+  background-color: var(--theme);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open .floating-navbar {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -30px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
