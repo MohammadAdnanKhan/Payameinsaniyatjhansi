@@ -18,12 +18,11 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
   const [copied, setCopied] = useState<string | null>(null);
 
   const details: DonationDetail[] = [
-    { label: "Account Name", value: "XYZ Foundation" },
-    { label: "Account No", value: "17777" },
-    { label: "IFSC Code", value: "IDF888" },
-    { label: "SWIFT Code", value: "IDF888" },
-    { label: "Bank Name", value: "XYZ Bank" },
-    { label: "UPI ID", value: "Saaa@upi" },
+    { label: "Account Name", value: "Payam E Insaniyat Forum Jhansi" },
+    { label: "Account No", value: "04911100003020" },
+    { label: "IFSC Code", value: "PSIB0000491" },
+    { label: "Bank Name", value: "Punjab & Sind Bank, Jhokan Bagh, Jhansi" },
+    { label: "UPI ID", value: "9140047092@psbpay" },
   ];
 
   useEffect(() => {
