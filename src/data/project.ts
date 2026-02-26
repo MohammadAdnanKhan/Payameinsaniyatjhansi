@@ -5,10 +5,10 @@ export const projects: IMajorProject[] = [
     id: "1",
     title: "Roti Bank",
     location: "Taj Compound, Jhansi, India",
-    year: "2023",
+    year: "Since 2020",
     description:
-      "Providing daily nutritious meals to the poor, homeless, and underprivileged members of our community.",
-    image: "/majorprojects/rotibank.jpeg",
+      "Providing daily nutritious meals to underprivileged, homeless, and vulnerable individuals to ensure food security and community well-being.",
+    image: "/majorprojects/roti.png",
     impact: {
       beneficiaries: "10,200+",
       fundsRaised: "₹1,85,299",
@@ -23,8 +23,8 @@ export const projects: IMajorProject[] = [
     location: "Deen Dayal Nagar, Jhansi, India",
     year: "2022",
     description:
-      "An employment initiative focused on connecting unemployed youth with sustainable job opportunities.",
-    image: "/majorprojects/rozgarbank.jpeg",
+      "Empowering unemployed youth by connecting them with sustainable job opportunities, skill development programs, and long-term livelihood support.",
+    image: "/majorprojects/rozgarbank.png",
     impact: {
       beneficiaries: "15+",
       fundsRaised: "₹2,20,550",
@@ -39,8 +39,8 @@ export const projects: IMajorProject[] = [
     location: "Jhansi, India",
     year: "2023",
     description:
-      "Organizing regular medical check-ups and voluntary blood donation drives to support public health and emergency care.",
-    image: "/majorprojects/medical-camps.jpeg",
+      "Organizing medical check-ups and voluntary blood donation drives to improve public health access and strengthen emergency care services.",
+    image: "/majorprojects/medical-camps.png",
     impact: {
       beneficiaries: "103+",
       fundsRaised: "₹70,000",
@@ -55,8 +55,8 @@ export const projects: IMajorProject[] = [
     location: "Deen Dayal Nagar, Jhansi, India",
     year: "2023",
     description:
-      "Providing quality clothing to underprivileged individuals and families with dignity and care.",
-    image: "/majorprojects/kapdabank.jpeg",
+      "Distributing quality clothing to underprivileged families with dignity, ensuring seasonal protection and promoting compassion within the community.",
+    image: "/majorprojects/kapdabank.png",
     impact: {
       beneficiaries: "679+",
       fundsRaised: "₹1,20,000",
@@ -71,8 +71,8 @@ export const projects: IMajorProject[] = [
     location: "Jhansi, India",
     year: "2022",
     description:
-      "Helping individuals from diverse communities find suitable matrimonial matches and supporting families in need.",
-    image: "/majorprojects/shadibank.jpeg",
+      "Supporting individuals in finding suitable matrimonial matches while assisting financially challenged families with guidance and community backing.",
+    image: "/majorprojects/matrimonial.png",
     impact: {
       beneficiaries: "8+",
       fundsRaised: "₹57,700",
@@ -87,7 +87,7 @@ export const projects: IMajorProject[] = [
     location: "Jhansi, India",
     year: "2022",
     description:
-      "Large-scale tree plantation drives and environmental protection initiatives, including efforts to safeguard endangered species.",
+      "Leading tree plantation drives and environmental awareness campaigns to protect biodiversity and promote sustainable ecological practices.",
     image: "/majorprojects/environment.jpeg",
     impact: {
       beneficiaries: "n/a",
@@ -99,11 +99,27 @@ export const projects: IMajorProject[] = [
 
   {
     id: "8",
+    title: "Free Antim Yatra Service",
+    location: "Jhansi, India",
+    year: "2022",
+    description:
+      "Providing free and respectful transportation services for deceased individuals, ensuring dignified final rites for families in need.",
+    image: "/majorprojects/antim.png",
+    impact: {
+      beneficiaries: "47+",
+      fundsRaised: "₹1,57,000",
+      volunteers: "8+",
+    },
+    projectUrl: "/projects/antim-yatra-service",
+  },
+
+  {
+    id: "9",
     title: "Community & Heritage Support",
     location: "Jhansi, India",
     year: "2023",
     description:
-      "Social initiatives including preservation of historical monuments and providing free drinking water (Jal Piyau) services for passersby.",
+      "Preserving historical heritage sites while offering free drinking water services and community welfare initiatives for public benefit.",
     image: "/majorprojects/community.jpeg",
     impact: {
       beneficiaries: "n/a",
@@ -114,34 +130,18 @@ export const projects: IMajorProject[] = [
   },
 
   {
-    id: "9",
-    title: "Free Antim Yatra Service",
+    id: "10",
+    title: "Crowdsourcing for Emergency Relief",
     location: "Jhansi, India",
-    year: "2022",
+    year: "2022-2025",
     description:
-      "Providing respectful and free transportation services for deceased individuals to burial or cremation grounds.",
-    image: "/majorprojects/antim.jpeg",
+      "Mobilizing community-driven crowdfunding efforts to provide rapid financial assistance to families affected by disasters and emergencies.",
+    image: "/majorprojects/crowdsourcing.jpeg",
     impact: {
-      beneficiaries: "47+",
-      fundsRaised: "₹1,57,000",
-      volunteers: "8+",
+      beneficiaries: "250+",
+      fundsRaised: "₹5,37,050+",
+      volunteers: "28+",
     },
-    projectUrl: "/projects/antim-yatra-service",
+    projectUrl: "/projects/crowdsourcing",
   },
-{
-  id: "10",
-  title: "Crowdsourcing for Emergency Relief",
-  location: "Jhansi, India",
-  year: "2022",
-  description:
-    "Mobilizing community-driven crowdfunding efforts to support individuals and families in urgent need across India, including disaster-affected regions such as flood-hit areas.",
-  image: "/majorprojects/crowdsourcing.jpeg",
-  impact: {
-    beneficiaries: "250+",
-    fundsRaised: "₹5,37,050+",
-    volunteers: "28+",
-  },
-  projectUrl: "/projects/crowdsourcing",
-},
-
 ];

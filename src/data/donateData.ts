@@ -27,7 +27,7 @@ export const donateData: DonateItem[] = [
   },
   {
     id: 5,
-    image: "/majorprojects/antim.jpeg",
+    image: "/majorprojects/antim.png",
     text: "Offering respectful and free funeral transportation services to families in need.",
   },
   {
