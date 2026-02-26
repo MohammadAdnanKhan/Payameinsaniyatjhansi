@@ -70,17 +70,15 @@ const MajorProjectsCarousel = ({ projects }: Props) => {
 
       <div
         ref={carouselRef}
-        className="
-          flex gap-8
-          overflow-x-auto
-          snap-x snap-mandatory
-          no-scrollbar
-        "
+className="
+flex gap-6 px-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 
+  
+"
       >
         {projects.map((project) => (
           <div
             key={project.id}
-            className="snap-start shrink-0 w-[85vw] sm:w-[420px] pb-12"
+            className="snap-start shrink-0 w-[80vw] sm:w-[420px] pb-12"
           >
             <MajorProjectCard project={project} />
           </div>

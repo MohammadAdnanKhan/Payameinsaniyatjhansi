@@ -29,7 +29,7 @@ const MajorProjectCard = ({ project }: Props) => {
         hover:shadow-xl
       "
     >
-     <div className="relative w-full h-44 overflow-hidden">
+     <div className="relative w-full aspect-[16/9] overflow-hidden">
         <Image
           src={project.image}
           alt={project.title}
@@ -64,7 +64,7 @@ const MajorProjectCard = ({ project }: Props) => {
             {project.location}
           </p>
 
-          <p className="text-sm mt-4 text-slate-600 leading-relaxed line-clamp-3">
+          <p className="text-sm mt-4 text-slate-600 leading-relaxed leading-relaxed">
             {project.description}
           </p>
         </div>
