@@ -88,3 +88,83 @@ body.modal-open .floating-navbar {
 .animate-fadeIn {
   animation: fadeIn 0.6s ease forwards;
 }
+
+@layer base {
+  ::selection {
+    background-color: var(--color-primary);
+    color: #000;
+  }
+
+  ::-moz-selection {
+    background-color: var(--color-primary);
+    color: #000;
+  }
+  
+}
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height:6px
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+}
+* {
+  -webkit-tap-highlight-color: rgba(22, 163, 74, 0.2);
+}
+
+/* for team page */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.blob-green {
+  background: var(--color-primary);
+}
+
+.blob-blue {
+  background: var(--color-secondary);
+}
+.curve-divider {
+  position: relative;
+}
+
+.curve-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: var(--theme);
+  clip-path: ellipse(70% 100% at 50% 0%);
+}
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal-visible {
+  animation: revealUp 0.7s ease forwards;
+}
