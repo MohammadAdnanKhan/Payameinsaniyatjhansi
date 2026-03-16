@@ -116,7 +116,7 @@ const Footer = () => {
 
               <li className="flex items-center gap-3">
                 <FontAwesomeIcon icon={faEnvelope} className="text-primary" />
-                payameinsaniyatjhansi@gmail.com
+                peif.jhansi@gmail.com
               </li>
             </ul>
             <div className="mt-6 flex gap-4">
