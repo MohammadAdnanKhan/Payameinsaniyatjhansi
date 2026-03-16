@@ -8,7 +8,7 @@ export const projects: IMajorProject[] = [
     year: "Since 2020",
     description:
       "Providing daily nutritious meals to underprivileged, homeless, and vulnerable individuals to ensure food security and community well-being.",
-    image: "/majorprojects/roti.png",
+    image: "/majorprojects/roti.webp",
     impact: {
       beneficiaries: "10,200+",
       fundsRaised: "₹1,85,299",
@@ -21,10 +21,10 @@ export const projects: IMajorProject[] = [
     id: "2",
     title: "Rozgar Bank",
     location: "Deen Dayal Nagar, Jhansi, India",
-    year: "2022",
+    year: "Since 2023",
     description:
       "Empowering unemployed youth by connecting them with sustainable job opportunities, skill development programs, and long-term livelihood support.",
-    image: "/majorprojects/rozgarbank.png",
+    image: "/majorprojects/rozgarbank1.webp",
     impact: {
       beneficiaries: "15+",
       fundsRaised: "₹2,20,550",
@@ -37,10 +37,10 @@ export const projects: IMajorProject[] = [
     id: "3",
     title: "Medical & Blood Donation Camps",
     location: "Jhansi, India",
-    year: "2023",
+    year: "Since 2020",
     description:
       "Organizing medical check-ups and voluntary blood donation drives to improve public health access and strengthen emergency care services.",
-    image: "/majorprojects/medical-camps.png",
+    image: "/majorprojects/medical-camps.webp",
     impact: {
       beneficiaries: "103+",
       fundsRaised: "₹70,000",
@@ -53,10 +53,10 @@ export const projects: IMajorProject[] = [
     id: "4",
     title: "Kapda Bank Initiative",
     location: "Deen Dayal Nagar, Jhansi, India",
-    year: "2023",
+    year: "Since 2022",
     description:
       "Distributing quality clothing to underprivileged families with dignity, ensuring seasonal protection and promoting compassion within the community.",
-    image: "/majorprojects/kapdabank.png",
+    image: "/majorprojects/kapdabank1.webp",
     impact: {
       beneficiaries: "679+",
       fundsRaised: "₹1,20,000",
@@ -69,10 +69,10 @@ export const projects: IMajorProject[] = [
     id: "5",
     title: "Shadi Rishta Bank",
     location: "Jhansi, India",
-    year: "2022",
+    year: "Since 2023",
     description:
       "Supporting individuals in finding suitable matrimonial matches while assisting financially challenged families with guidance and community backing.",
-    image: "/majorprojects/matrimonial.png",
+    image: "/majorprojects/matrimonial.webp",
     impact: {
       beneficiaries: "8+",
       fundsRaised: "₹57,700",
@@ -85,10 +85,10 @@ export const projects: IMajorProject[] = [
     id: "7",
     title: "Environmental Activism",
     location: "Jhansi, India",
-    year: "2022",
+    year: "Since 2021",
     description:
       "Leading tree plantation drives and environmental awareness campaigns to protect biodiversity and promote sustainable ecological practices.",
-    image: "/majorprojects/environment.jpeg",
+    image: "/majorprojects/environment.webp",
     impact: {
       beneficiaries: "n/a",
       fundsRaised: "₹84,000",
@@ -101,10 +101,10 @@ export const projects: IMajorProject[] = [
     id: "8",
     title: "Free Antim Yatra Service",
     location: "Jhansi, India",
-    year: "2022",
+    year: "Since 2024",
     description:
       "Providing free and respectful transportation services for deceased individuals, ensuring dignified final rites for families in need.",
-    image: "/majorprojects/antim.png",
+    image: "/majorprojects/antim.webp",
     impact: {
       beneficiaries: "47+",
       fundsRaised: "₹1,57,000",
@@ -117,10 +117,10 @@ export const projects: IMajorProject[] = [
     id: "9",
     title: "Community & Heritage Support",
     location: "Jhansi, India",
-    year: "2023",
+    year: "Since 2023",
     description:
       "Preserving historical heritage sites while offering free drinking water services and community welfare initiatives for public benefit.",
-    image: "/majorprojects/community.jpeg",
+    image: "/majorprojects/community.webp",
     impact: {
       beneficiaries: "n/a",
       fundsRaised: "n/a",
@@ -133,10 +133,10 @@ export const projects: IMajorProject[] = [
     id: "10",
     title: "Crowdsourcing for Emergency Relief",
     location: "Jhansi, India",
-    year: "2022-2025",
+    year: "Since 2022",
     description:
       "Mobilizing community-driven crowdfunding efforts to provide rapid financial assistance to families affected by disasters and emergencies.",
-    image: "/majorprojects/crowdsourcing.jpeg",
+    image: "/majorprojects/crowdsourcing.webp",
     impact: {
       beneficiaries: "250+",
       fundsRaised: "₹5,37,050+",

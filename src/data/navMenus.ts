@@ -19,7 +19,7 @@ export const navMenus: INavItem[] = [
   },
   {
     name: "AboutUs",
-    link: "/#about",
+    link: "/about",
     icon: faInfoCircle,
   },
 
