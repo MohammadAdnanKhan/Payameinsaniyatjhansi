@@ -10,10 +10,11 @@ export const FOOTER_LINKS = {
   quickLinks: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
-    { label: "Our Initiatives", href: "/initiatives" },
-    { label: "Events", href: "/events" },
-    { label: "Gallery", href: "/gallery" },
     { label: "Daily Updates", href: "/news" },
+    { label: "Donate Us", href: "/donate" },
+    { label: "Team", href: "/team" },
+    { label: "Contact", href: "/contact" },
+    { label: "Admin", href: "/studio" },
   ],
 
   policies: [
