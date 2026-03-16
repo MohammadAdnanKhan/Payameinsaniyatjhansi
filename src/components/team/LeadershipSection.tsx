@@ -15,10 +15,10 @@ export default function LeadershipSection({
   onClick,
 }: Props) {
   return (
-    <section className="relative py-16 overflow-hidden">
+    <section className="relative py-16  overflow-hidden">
 
-      <div className="blob blob-green w-72 h-72 -top-24 -left-24 opacity-20" />
-      <div className="blob blob-blue w-72 h-72 bottom-0 right-0 opacity-20" />
+      {/* <div className="blob blob-green w-72 h-72 -top-24 -left-24 opacity-20" /> */}
+      {/* <div className="blob blob-blue w-72 h-72 bottom-0 right-0 opacity-20" /> */}
 
       <div className="relative max-w-6xl mx-auto px-6">
         <SectionHeader
