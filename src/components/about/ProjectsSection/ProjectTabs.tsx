@@ -1,25 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { projects } from "@/data/aboutprojects"
-import { motion, AnimatePresence } from "framer-motion"
-import ProjectSlider from "./ProjectSlider"
+import { useState } from "react";
+import { projects } from "@/data/aboutprojects";
+import { motion, AnimatePresence } from "framer-motion";
+import ProjectSlider from "./ProjectSlider";
 
 export default function ProjectTabs() {
-  const [active, setActive] = useState(projects[0])
+  const [active, setActive] = useState(projects[0]);
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-20">
-
       <h2 className="text-3xl md:text-5xl font-semibold text-center">
         <span className="text-primary">Our</span>{" "}
         <span className="text-secondary">Projects</span>
       </h2>
 
       <div className="flex flex-wrap justify-center gap-3 mt-12">
-
         {projects.map((p) => (
-
           <button
             key={p.id}
             onClick={() => setActive(p)}
@@ -32,15 +29,11 @@ export default function ProjectTabs() {
           >
             {p.title}
           </button>
-
         ))}
-
       </div>
 
       <div className="mt-14">
-
         <AnimatePresence mode="wait">
-
           <motion.div
             key={active.id}
             initial={{ opacity: 0, y: 30 }}
@@ -48,9 +41,7 @@ export default function ProjectTabs() {
             exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.4 }}
           >
-
             <div className="bg-[var(--boldtheme)] border border-secondary/40 rounded-xl p-8 md:p-10 shadow-lg">
-
               <h3 className="text-2xl font-semibold text-secondary text-center">
                 {active.title}
               </h3>
@@ -60,15 +51,10 @@ export default function ProjectTabs() {
               </p>
 
               <ProjectSlider key={active.id} images={active.images} />
-
             </div>
-
           </motion.div>
-
         </AnimatePresence>
-
       </div>
-
     </section>
-  )
+  );
 }
