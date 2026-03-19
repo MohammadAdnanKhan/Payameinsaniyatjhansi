@@ -6,7 +6,7 @@ import { FlipWords } from "../common/flipwords";
 
 export default function AboutHero() {
   return (
-    <section className="relative font-body py-10 overflow-hidden">
+    <section className="relative font-body py-4 overflow-hidden">
       <div className="max-w-7xl mx-auto px-10 grid lg:grid-cols-2 gap-14 items-center">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
