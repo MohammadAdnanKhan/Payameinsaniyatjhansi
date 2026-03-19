@@ -8,7 +8,7 @@ export default function TimelineTab() {
   ];
 
   return (
-    <section className="py-12 px-4">
+    <section className="py-8 px-4">
       <div className="text-center mb-10 space-y-3">
         <h3 className="text-2xl font-semibold text-secondary">Our Journey</h3>
         <div className="w-14 h-[2px] bg-primary mx-auto rounded-full"></div>

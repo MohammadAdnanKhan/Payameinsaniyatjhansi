@@ -36,10 +36,13 @@ export default function MissionTab() {
   ];
 
   return (
-    <section className="space-y-8">
-      <h3 className="text-2xl font-semibold text-center text-secondary">
-        Our Mission
-      </h3>
+    <section className="py-8 px-4">
+      <div className="text-center space-y-5">
+        <h3 className="text-2xl font-semibold text-secondary">
+          Our Mission
+        </h3>
+
+        <div className="w-14 h-[2px] mb-10 bg-primary mx-auto rounded-full"></div>
 
       <div className="grid md:grid-cols-2 gap-6">
         {missions.map((m, i) => {
@@ -58,6 +61,7 @@ export default function MissionTab() {
             </div>
           );
         })}
+      </div>
       </div>
     </section>
   );
