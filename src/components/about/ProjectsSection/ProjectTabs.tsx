@@ -9,7 +9,7 @@ export default function ProjectTabs() {
   const [active, setActive] = useState(projects[0]);
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-20">
+    <section className="max-w-6xl mx-auto px-6 py-6">
       <h2 className="text-3xl md:text-5xl font-semibold text-center">
         <span className="text-primary">Our</span>{" "}
         <span className="text-secondary">Projects</span>
