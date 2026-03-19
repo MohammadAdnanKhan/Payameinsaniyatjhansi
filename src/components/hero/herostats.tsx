@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
-import CountUp from "react-countup";
+import dynamic from "next/dynamic";
+// import CountUp from "react-countup";
+const CountUp = dynamic(() => import("react-countup"), {
+  ssr: false,
+})
 
 export default function HeroStats() {
   return (
