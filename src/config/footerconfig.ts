@@ -36,11 +36,6 @@ export const FOOTER_LINKS = {
       icon: faInstagram,
     },
     {
-      label: "LinkedIn",
-      href: "https://linkedin.com",
-      icon: faLinkedinIn,
-    },
-    {
       label: "YouTube",
       href: "https://youtube.com",
       icon: faYoutube,

@@ -47,22 +47,22 @@ const Footer = () => {
                 <h3 className="text-base sm:text-lg font-heading tracking-tight leading-tight">
                   Payam-E-Insaniyat Forum Jhansi
                 </h3>
-                <p className="text-sm text-black/60">
+                <p className="text-sm text-black">
                   Empowering lives sustainably
                 </p>
               </div>
             </Link>
 
-            <p className="text-sm text-black/70 leading-relaxed">
+            <p className="text-sm text-black leading-relaxed">
               A registered non-profit organization working at the grassroots
               level to strengthen resilient communities through essential daily
               needs, healthcare, employment generation, and environmental &
               social action.
             </p>
 
-            <p className="text-xs text-black/50">
+            <p className="text-xs text-secondary">
               Registration No:{" "}
-              <span className="font-medium">NGO/IND/12A/80G</span>
+              <span className="font-medium">R/JHA/07016/2025-2026</span>
             </p>
           </div>
 
@@ -75,7 +75,7 @@ const Footer = () => {
                     href={link.href}
                     className="
                       relative inline-block
-                      text-black/70
+                      text-black
                       transition-colors
                       hover:text-primary
                       after:absolute after:left-0 after:-bottom-1
@@ -94,7 +94,7 @@ const Footer = () => {
           <div>
             <h4 className="mb-5 font-heading text-base">Contact Us</h4>
 
-            <ul className="space-y-4 text-sm text-black/70">
+            <ul className="space-y-4 text-sm text-black">
               <li className="flex gap-3">
                 <FontAwesomeIcon
                   icon={faLocationDot}
@@ -144,7 +144,7 @@ const Footer = () => {
           <div>
             <h4 className="mb-5 font-heading text-base">Legal & Policies</h4>
 
-            <ul className="space-y-4 text-sm text-black/70">
+            <ul className="space-y-4 text-sm text-black">
               {FOOTER_LINKS.policies.map((policy) => (
                 <li key={policy.label} className="flex items-center gap-3">
                   <FontAwesomeIcon
