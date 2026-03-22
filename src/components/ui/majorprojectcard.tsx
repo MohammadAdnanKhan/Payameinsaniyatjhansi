@@ -78,7 +78,7 @@ const MajorProjectCard = ({ project }: Props) => {
                   <p className="text-sm font-semibold text-[var(--color-primary)]">
                     {project.impact.beneficiaries}
                   </p>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-800">
                     Impact
                   </p>
                 </div>
@@ -89,7 +89,7 @@ const MajorProjectCard = ({ project }: Props) => {
                   <p className="text-sm font-semibold text-[var(--color-primary)]">
                     {project.impact.fundsRaised}
                   </p>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-800">
                     Funds
                   </p>
                 </div>
@@ -100,7 +100,7 @@ const MajorProjectCard = ({ project }: Props) => {
                   <p className="text-sm font-semibold text-[var(--color-primary)]">
                     {project.impact.volunteers}
                   </p>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-800">
                     Volunteers
                   </p>
                 </div>
@@ -152,7 +152,7 @@ export default MajorProjectCard;
 //           src={project.image}
 //           alt={project.title}
 //           fill
-//           loading="lazy" // 🔥 IMPORTANT
+//           loading="lazy" //  IMPORTANT
 //           sizes="(max-width: 768px) 80vw, 420px"
 //           className="object-cover"
 //         />

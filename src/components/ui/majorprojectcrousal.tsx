@@ -170,11 +170,11 @@ const MajorProjectsCarousel = ({ projects }: Props) => {
 
 
         <div className="hidden md:flex gap-3">
-          <button onClick={() => scroll("prev")} className="h-11 w-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+          <button onClick={() => scroll("prev")} className="h-11 w-11 meow1 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
             <ChevronLeft size={18} />
           </button>
 
-          <button onClick={() => scroll("next")} className="h-11 w-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+          <button onClick={() => scroll("next")} className="h-11 w-11 meow2 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
             <ChevronRight size={18} />
           </button>
         </div>
