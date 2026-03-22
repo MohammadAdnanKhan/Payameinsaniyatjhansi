@@ -1,9 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #16a34a;
-  --color-primary-hover: #15803d;
-
+  /* --color-primary: #16a34a;
+  --color-primary-hover: #15803d; */
+--color-primary: #15803d;
+--color-primary-hover: #166534;
+/* --color-primary: #15803d;        
+--color-primary-hover: #166534;   */
   --color-secondary: #1e3a8a;
   --color-secondary-hover: #1e40af;
 
@@ -15,9 +18,17 @@
 
   --theme: #dcfce7;
   --boldtheme: #c7eed8;
-
+/* 
   --font-heading: "Poppins", system-ui, sans-serif;
-  --font-body: "Source Sans 3", system-ui, sans-serif;
+  --font-body: "Source Sans 3", system-ui, sans-serif; */
+
+  /* --font-heading: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif; */
+
+  
+  /* --font-heading: "Outfit", system-ui, sans-serif;*/
+  --font-body: "Instrument Sans", system-ui, sans-serif; 
+  --font-heading: "Bricolage Grotesque", sans-serif, "Outfit", system-ui;
 }
 
 @theme inline {

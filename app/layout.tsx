@@ -7,6 +7,8 @@ import { navMenus } from "@/data/navMenus";
 import { Poppins, Source_Sans_3 } from "next/font/google";
 import LogoBar from "@/components/logobar/logobar";
 import Footer from "@/components/footer/footer";
+import ScrollToTop from "@/components/additional/top";
+import WhatsAppButton from "@/components/additional/whatsappbutton";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -42,6 +44,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <FloatingNavbar className="app_nav" navItems={navMenus} audioSrc="/audio/audio.mp3"/>
         <LogoBar></LogoBar>
         {children}
+        <WhatsAppButton/>
+        <ScrollToTop/>
         <Footer></Footer>
       </body>
     </html>

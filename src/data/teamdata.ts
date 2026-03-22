@@ -67,14 +67,14 @@ export const teamMembers: ITeamMember[] = [
     message:
       "Actively involved in event planning and outreach coordination.",
   },
-  {
-    id: "c3",
-    name: "Islam Khan",
-    image: "/images/team/core3.webp",
-    category: "core",
-    message:
-      "Contributing to project execution and local community engagement.",
-  },
+  // {
+  //   id: "c3",
+  //   name: "Islam Khan",
+  //   image: "/images/team/core3.webp",
+  //   category: "core",
+  //   message:
+  //     "Contributing to project execution and local community engagement.",
+  // },
   {
     id: "c4",
     name: "Mohd Saleem",
@@ -131,14 +131,14 @@ export const teamMembers: ITeamMember[] = [
     message:
       "Assisting in logistics and on-field implementation of NGO initiatives.",
   },
-  {
-    id: "c11",
-    name: "Ali Sher",
-    image: "/images/team/core12.webp",
-    category: "core",
-    message:
-      "Assisting in logistics and on-field implementation of NGO initiatives.",
-  },
+  // {
+  //   id: "c11",
+  //   name: "Ali Sher",
+  //   image: "/images/team/core12.webp",
+  //   category: "core",
+  //   message:
+  //     "Assisting in logistics and on-field implementation of NGO initiatives.",
+  // },
 
   // // Volunteers
   // {
@@ -162,7 +162,7 @@ export const teamMembers: ITeamMember[] = [
   {
     id: "y1",
     name: "Athar Khan",
-    image: "/images/team/core2.webp",
+    image: "/images/team/athar.jpeg",
     category: "youth",
     message:
       "Actively engaged in youth-led community awareness initiatives.",
