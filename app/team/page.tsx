@@ -7,7 +7,7 @@ import LeadershipSection from "@/components/team/LeadershipSection";
 import TeamGridSection from "@/components/team/TeamGridSection";
 import YouthSection from "@/components/team/YouthSection";
 import MemberModal from "@/components/team/MemberModal";
-
+import TeamHero from "@/components/team/hero";
 export default function TeamPage() {
   const [selected, setSelected] = useState<ITeamMember | null>(null);
 
@@ -19,7 +19,7 @@ export default function TeamPage() {
 
   return (
     <main>
-
+      <TeamHero/>
       <LeadershipSection
         members={leadership}
         onClick={setSelected}
