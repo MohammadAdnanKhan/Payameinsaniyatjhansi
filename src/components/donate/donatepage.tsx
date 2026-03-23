@@ -26,10 +26,13 @@ interface DonationOption {
 }
 
 const donationOptions: DonationOption[] = [
-  { value: 500, label: "Feeds a child for a week" },
-  { value: 1000, label: "Provides school supplies" },
-  { value: 2000, label: "Covers a month of meals" },
-  { value: 3000, label: "Sponsors a child's term" },
+  { value: 500, label: "Provides fresh meals to families through Roti Bank" },
+  { value: 1000, label: "Distributes clothing kits via Kapda Bank" },
+  {
+    value: 2000,
+    label: "Supports free medical camps for underserved communities",
+  },
+  { value: 3000, label: "Helps a youth find employment through Rojgar Bank" },
 ];
 
 export default function DonatePage() {
@@ -77,14 +80,22 @@ export default function DonatePage() {
     <div className="min-h-screen font-body bg-theme text-foreground font-sans relative overflow-hidden -mt-28">
       <div className="max-w-5xl mx-auto px-4 relative z-10 pt-16 pb-12">
         <div className="text-center max-w-2xl mx-auto mb-12 animate-slideUp">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6 border border-primary/20">
-            <Heart className="w-4 h-4 fill-primary" />
-            Make a Difference Today
+          <div className="flex items-center justify-center gap-2 mb-6 animate-fadeIn">
+            <Heart className="w-4 h-4 text-primary fill-primary" />
+            <p className="text-primary font-bold tracking-widest uppercase text-sm">
+              Make a Difference Today
+            </p>
           </div>
           <h2 className="text-3xl md:text-5xl font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
-            <span className="text-primary">Your support helps provide</span>{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">
+                Your support helps provide
+              </span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2"></span>
+            </span>{" "}
+            {/* <span className="text-primary">Your support helps provide</span>{" "} */}
             <span className="text-secondary">
-              education and meals to children in need.
+              meals and daily necessities to children in real need.
             </span>
           </h2>
 
@@ -102,7 +113,7 @@ export default function DonatePage() {
               Choose your impact
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1  md:grid-cols-2 gap-4 mb-6">
               {donationOptions.map((option) => (
                 <button
                   key={option.value}
@@ -335,9 +346,13 @@ export default function DonatePage() {
           className="mt-20 text-center animate-slideUp"
           style={{ animationDelay: "0.3s" }}
         >
-          <h3 className="text-2xl font-heading font-semibold mb-10">
-            What happens after you donate?
-          </h3>
+          <h2 className="text-3xl md:text-5xl font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">What happens</span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2"></span>
+            </span>{" "}
+            <span className="text-secondary">after you donate?</span>
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-[var(--theme)] flex items-center justify-center mb-4 text-primary hover:scale-110 transition-transform">
@@ -404,27 +419,238 @@ export default function DonatePage() {
           </div>
         </div>
 
-        <div className="mt-24 max-w-3xl mx-auto">
-          <h3 className="text-2xl font-heading font-semibold mb-8 text-center">
-            Frequently Asked Questions
-          </h3>
-          <div className="grid gap-4">
+        <div className="mt-24 max-w-3xl mx-auto" id="faq">
+          <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">
+                Frequently Asked
+              </span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2"></span>
+            </span>{" "}
+            <span className="text-secondary">Questions</span>
+          </h2>
+          <div className="grid gap-4 ">
             {[
               {
                 q: "Will I get a receipt for tax exemption?",
-                a: "Yes! While our automated email system is in the works, you can easily get your 80G compliant receipt by sending us your payment screenshot via the WhatsApp button above.",
+                a: (
+                  <>
+                    Yes! While our automated email system is in the works, you
+                    can easily get your 80G compliant receipt by sending us your
+                    payment screenshot via the WhatsApp button above.
+                  </>
+                ),
               },
               {
                 q: "Is my payment secure?",
-                a: "Absolutely. Our current UPI QR codes and bank details route payments directly and securely through your own trusted bank apps (GPay, PhonePe, Paytm, etc) to our official NGO bank account.",
+                a: (
+                  <>
+                    Absolutely. Our UPI QR codes and bank details route payments
+                    securely through trusted apps like GPay, PhonePe, and Paytm
+                    directly to our official NGO account.
+                  </>
+                ),
               },
               {
                 q: "Where exactly is my money used?",
-                a: "Your funds go directly into our daily operations. 90% goes straight toward meals and educational kits, and 10% covers the essential on-ground logistics to deliver this aid.",
+                a: (
+                  <>
+                    Your funds go directly into our daily operations. 100% goes
+                    towards active projects. Learn more on our{" "}
+                    <a
+                      href="/about"
+                      id="refundpolicy"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">About page</span>
+                    </a>
+                  </>
+                ),
               },
               {
                 q: "What is your refund policy?",
-                a: "Because donations are immediately deployed into our ground operations to provide meals and supplies for those in need, all contributions are strictly non-refundable. We maintain strict transparency so you can see the direct impact of your generosity.",
+                a: (
+                  <>
+                    Donations are immediately used for meals and supplies, so
+                    they are non-refundable. We ensure full transparency so you
+                    can see the impact of your contribution on our{" "}
+                    <a
+                      href="/about"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">About page</span>
+                    </a>
+                    .
+                  </>
+                ),
+              },
+              {
+                q: "How can I verify your NGO?",
+                a: (
+                  <>
+                    We maintain complete transparency about our operations and
+                    registration details. You can verify everything on our{" "}
+                    <a
+                      href="/about"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">About page</span>
+                    </a>{" "}
+                    or contact us directly for documents.
+                  </>
+                ),
+              },
+              {
+                q: "Can I volunteer instead of donating?",
+                a: (
+                  <>
+                    Yes, absolutely! We welcome volunteers. Visit our{" "}
+                    <a
+                      href="/contact"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">Contact page</span>
+                    </a>{" "}
+                    or reach out via WhatsApp to get involved.
+                  </>
+                ),
+              },
+              {
+                q: "Do you provide updates on how donations are used?",
+                a: (
+                  <>
+                    Yes, we regularly share updates and impact stories. Follow
+                    us on our social media pages{" "}
+                    <a
+                      href="/donate/#footer"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10 scrolltobottom">
+                        click
+                      </span>
+                    </a>
+                    or check updates on the{" "}
+                    <a
+                      href="/news"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">Daily News page</span>
+                    </a>
+                    .
+                  </>
+                ),
+              },
+              {
+                q: "Can I donate monthly or set up recurring donations?",
+                a: (
+                  <>
+                    Currently, recurring donations are manual. You can set up
+                    auto-pay through your banking app or contact us via the{" "}
+                    <a
+                      href="/contact"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">Contact page</span>
+                    </a>{" "}
+                    for assistance.
+                  </>
+                ),
+              },
+              {
+                q: "Is there a minimum donation amount?",
+                a: (
+                  <>
+                    No, every contribution matters. Even a small amount can help
+                    provide meals and essential supplies to those in need.
+                  </>
+                ),
+              },
+              {
+                q: "How can I contact you for more questions?",
+                a: (
+                  <>
+                    You can reach us anytime via our{" "}
+                    <a
+                      href="/contact"
+                      className="relative italic text-primary px-1 inline-block
+             transition-colors duration-300
+             before:absolute before:inset-0 before:bg-primary/20
+             before:scale-x-0 before:origin-left
+             before:transition-transform before:duration-300 before:rounded-sm
+             hover:before:scale-x-100
+             after:absolute after:left-0 after:bottom-0
+             after:h-[2px] after:w-0 after:bg-primary
+             after:transition-all after:duration-300
+             hover:after:w-full"
+                    >
+                      <span className="relative z-10">Contact page</span>
+                    </a>{" "}
+                    or through the WhatsApp button above.
+                  </>
+                ),
               },
             ].map((faq, idx) => (
               <div
@@ -440,12 +666,16 @@ export default function DonatePage() {
                   className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
                 >
                   <h4
-                    className={`font-bold text-lg transition-colors ${openFaq === idx ? "text-primary" : "text-foreground"}`}
+                    className={`font-bold text-lg transition-colors ${
+                      openFaq === idx ? "text-primary" : "text-foreground"
+                    }`}
                   >
                     {faq.q}
                   </h4>
                   <ChevronDown
-                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${openFaq === idx ? "rotate-180 text-primary" : ""}`}
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
+                      openFaq === idx ? "rotate-180 text-primary" : ""
+                    }`}
                   />
                 </button>
 
@@ -468,9 +698,13 @@ export default function DonatePage() {
         </div>
 
         <div className="mt-24 text-center ">
-          <h3 className="text-3xl font-heading font-bold mb-4">
-            Ready to change a life?
-          </h3>
+          <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">Ready to</span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2"></span>
+            </span>{" "}
+            <span className="text-secondary">Change Lives?</span>
+          </h2>
           <p className="text-gray-600 mb-8">
             Every contribution counts, no matter the size.
           </p>

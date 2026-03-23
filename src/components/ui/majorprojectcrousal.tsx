@@ -46,7 +46,7 @@
 //               border border-primary
 //               flex items-center justify-center
 //               text-primary
-//               hover:bg-primary hover:text-white 
+//               hover:bg-primary hover:text-white
 //               transition-colors
 //             "
 //           >
@@ -71,8 +71,8 @@
 //       <div
 //         ref={carouselRef}
 // className="
-// flex gap-6 px-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 
-  
+// flex gap-6 px-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4
+
 // "
 //       >
 //         {projects.map((project) => (
@@ -158,8 +158,11 @@ const MajorProjectsCarousel = ({ projects }: Props) => {
     <section className="w-full mt-20">
       <div className="mb-14 flex items-end justify-between">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-[var(--foreground)]">
-            <span className="text-primary">Our</span>{" "}
+          <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">Our</span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2"></span>
+            </span>{" "}
             <span className="text-secondary">Initiatives</span>
           </h2>
 
@@ -168,13 +171,18 @@ const MajorProjectsCarousel = ({ projects }: Props) => {
           </p>
         </div>
 
-
         <div className="hidden md:flex gap-3">
-          <button onClick={() => scroll("prev")} className="h-11 w-11 meow1 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+          <button
+            onClick={() => scroll("prev")}
+            className="h-11 w-11 meow1 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
+          >
             <ChevronLeft size={18} />
           </button>
 
-          <button onClick={() => scroll("next")} className="h-11 w-11 meow2 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+          <button
+            onClick={() => scroll("next")}
+            className="h-11 w-11 meow2 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
+          >
             <ChevronRight size={18} />
           </button>
         </div>
@@ -192,11 +200,17 @@ const MajorProjectsCarousel = ({ projects }: Props) => {
       </div>
 
       <div className="mt-8 flex justify-center gap-4 md:hidden">
-        <button onClick={() => scroll("prev")} className="px-6 py-3 rounded-md border border-primary text-primary font-medium hover:bg-primary hover:text-white">
+        <button
+          onClick={() => scroll("prev")}
+          className="px-6 py-3 rounded-md border border-primary text-primary font-medium hover:bg-primary hover:text-white"
+        >
           Previous
         </button>
 
-        <button onClick={() => scroll("next")} className="px-6 py-3 rounded-md bg-primary text-white font-medium hover:opacity-90">
+        <button
+          onClick={() => scroll("next")}
+          className="px-6 py-3 rounded-md bg-primary text-white font-medium hover:opacity-90"
+        >
           Next
         </button>
       </div>

@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 
 const FlipWords = dynamic(
   () => import("../common/flipwords").then((mod) => mod.FlipWords),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function HeroClient() {
@@ -22,7 +22,7 @@ export default function HeroClient() {
           Ground-level impact since 2020
         </div>
 
-        <h1 className="hero-fade-up hero-delay-1 mt-4 text-[2.75rem] sm:text-5xl lg:text-[3.45rem] leading-[1.1] text-secondary font-[var(--font-heading)] font-bold">
+        {/* <h1 className="hero-fade-up hero-delay-1 mt-4 text-[2.75rem] sm:text-5xl lg:text-[3.45rem] leading-[1.1] text-secondary font-[var(--font-heading)] font-bold">
           We don’t just help survive.
           <span className="block mt-2">
             We build{" "}
@@ -37,12 +37,36 @@ export default function HeroClient() {
               className="text-primary italic"
             />
           </span>
-        </h1>
+        </h1> */}
 
+        <h1 className="hero-fade-up hero-delay-1 mt-4 text-[2.75rem] sm:text-5xl lg:text-[3.45rem] leading-[1.1] text-secondary font-[var(--font-heading)] font-bold">
+          We don’t just help survive.
+          <span className="block mt-2">
+            We build{" "}
+            <span className="relative inline-block min-w-[220px]">
+              <span className="relative z-10 text-primary italic">
+                <FlipWords
+                  words={[
+                    "stability.",
+                    "livelihoods.",
+                    "futures.",
+                    "dignity.",
+                    "opportunity.",
+                  ]}
+                />
+              </span>
+
+              <span
+                className="absolute bottom-1 left-0 w-full h-4 bg-primary/20 -z-10 -rotate-2 
+                       origin-left scale-x-100 transition-transform duration-500 ease-in-out"
+              />
+            </span>
+          </span>
+        </h1>
         <p className="hero-fade-up hero-delay-2 mt-3 text-lg max-w-xl opacity-80 leading-relaxed">
           We empower communities through social activism, environmental
-          projects, and essential support, providing food, jobs, water,
-          green spaces, and help with life milestones.
+          projects, and essential support, providing food, jobs, water, green
+          spaces, and help with life milestones.
         </p>
 
         <div className="hero-fade-up hero-delay-3 mt-5 flex flex-wrap gap-4 items-center">

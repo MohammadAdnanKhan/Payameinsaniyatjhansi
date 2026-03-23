@@ -16,7 +16,7 @@ import { FOOTER_LINKS } from "@/config/footerconfig";
 
 const Footer = () => {
   return (
-    <footer className="bg-[var(--boldtheme)] font-heading border-t border-black/5">
+    <footer className="bg-[var(--boldtheme)] font-heading border-t border-black/5" id="footer">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="space-y-5 md:col-span-2">

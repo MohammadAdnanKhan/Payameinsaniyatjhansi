@@ -18,9 +18,12 @@ export default function DonateTreeSection() {
     <section className="relative py-16 px-6 bg-[var(--theme)] overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-secondary)]">
-            <span className="text-[var(--color-primary)]">Donate </span>Who
-            Deserved
+          <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">Donate</span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/20 z-10 -rotate-2"></span>
+            </span>{" "}
+            <span className="text-secondary">Who Deserved</span>
           </h2>
           <p className="mt-3 text-[var(--foreground)] opacity-70 max-w-xl mx-auto">
             Support initiatives that truly change lives.
