@@ -40,7 +40,7 @@ export const navMenus: INavItem[] = [
   },
   {
     name: "Contact",
-    link: "/#contact",
+    link: "/contact",
     icon: faEnvelope,
   },
 ];

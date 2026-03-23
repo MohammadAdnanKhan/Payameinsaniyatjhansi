@@ -9,7 +9,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/president.png",
     category: "leadership",
     message:
-      "Our NGO stands on collective compassion. Every member here strengthens our mission.",
+      "We started with a simple goal, no one should feel hungry or forgotten. Every step we take is towards restoring dignity, hope, and care for those who need it the most.",
   },
   {
     id: "l2",
@@ -18,7 +18,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/secretary.webp",
     category: "leadership",
     message:
-      "Transparency and unity drive our impact. Together, we create sustainable change.",
+      "Our work is built on trust and unity. Every effort we make ensures that support reaches the right people and creates real change that can be seen and felt in daily life.",
   },
   {
     id: "l3",
@@ -27,7 +27,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/treasurer.webp",
     category: "leadership",
     message:
-      "Ensuring accountability and financial transparency in every initiative we undertake.",
+      "Every contribution carries trust. We ensure transparency so that each donation reaches those in need and creates real, meaningful impact in their lives.",
   },
 
   // Project Heads
@@ -38,7 +38,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/project1.webp",
     category: "project-head",
     message:
-      "Leading healthcare outreach programs to ensure medical access for underserved communities.",
+      "Through Rozgar Bank, we help people find more than jobs — we help them regain confidence and independence by connecting them with opportunities that build stable livelihoods.",
   },
   {
     id: "p2",
@@ -47,7 +47,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/project2.webp",
     category: "project-head",
     message:
-      "Driving educational initiatives focused on literacy and youth empowerment.",
+      "We focus on building respectful and meaningful connections, helping families find trust and companionship through a supportive environment rooted in dignity and understanding.",
   },
 
   // Core Team
@@ -57,7 +57,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core1.webp",
     category: "core",
     message:
-      "Supporting ground operations and coordinating volunteers during community drives.",
+      "Works closely on ground operations, ensuring smooth coordination during drives and helping volunteers deliver support efficiently to communities in need.",
   },
   {
     id: "c2",
@@ -65,7 +65,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core2.webp",
     category: "core",
     message:
-      "Actively involved in event planning and outreach coordination.",
+      "Plays an active role in planning events and outreach efforts, helping organize initiatives that bring people together for meaningful community impact.",
   },
   // {
   //   id: "c3",
@@ -81,7 +81,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core4.webp",
     category: "core",
     message:
-      "Assisting in logistics and on-field implementation of NGO initiatives.",
+      "Supports logistics and field execution, ensuring that resources reach the right places and every initiative runs smoothly on the ground.",
   },
   {
     id: "c5",
@@ -89,7 +89,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core5.webp",
     category: "core",
     message:
-      "Contributing to project execution and local community engagement.",
+      "Actively contributes to project execution and engages with local communities to understand needs and ensure meaningful support reaches them.",
   },
   {
     id: "c6",
@@ -97,7 +97,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core6.webp",
     category: "core",
     message:
-      "Supporting ground operations and coordinating volunteers during community drives.",
+      "Coordinates volunteers during field activities and helps manage operations, ensuring every effort is organized and impactful for those being served.",
   },
   {
     id: "c7",
@@ -105,7 +105,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core7.webp",
     category: "core",
     message:
-      "Actively involved in event planning and outreach coordination.",
+      "Involved in organizing outreach programs and planning activities that connect the NGO with communities and encourage wider participation.",
   },
   {
     id: "c8",
@@ -113,7 +113,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core8.webp",
     category: "core",
     message:
-      "Contributing to project execution and local community engagement.",
+      "Supports project implementation and actively participates in community work, helping ensure that initiatives reach people effectively.",
   },
   {
     id: "c9",
@@ -121,7 +121,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core10.webp",
     category: "core",
     message:
-      "Assisting in logistics and on-field implementation of NGO initiatives.",
+      "Handles logistics and assists in field-level execution, making sure that all arrangements are in place for smooth delivery of services.",
   },
   {
     id: "c10",
@@ -129,7 +129,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core11.webp",
     category: "core",
     message:
-      "Assisting in logistics and on-field implementation of NGO initiatives.",
+      "Contributes to on-ground implementation and supports team coordination, helping ensure that every initiative is carried out effectively.",
   },
   // {
   //   id: "c11",
@@ -165,7 +165,7 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/athar.jpeg",
     category: "youth",
     message:
-      "Actively engaged in youth-led community awareness initiatives.",
+      "Actively involved in youth-led initiatives, helping raise awareness and encouraging young individuals to participate in meaningful community efforts.",
   },
   {
     id: "y2",
@@ -173,6 +173,6 @@ export const teamMembers: ITeamMember[] = [
     image: "/images/team/core2.webp",
     category: "youth",
     message:
-      "Passionate about social impact and mobilizing young volunteers.",
+      "Passionate about social impact and motivating young volunteers to come forward, contribute, and become part of positive change in society.",
   },
 ];

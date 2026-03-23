@@ -19,9 +19,9 @@ export const FOOTER_LINKS = {
 
   policies: [
     { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms & Conditions", href: "/terms" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Refund & Cancellation", href: "/refund-policy" },
+    { label: "Terms & Conditions", href: "/termsandconditions" },
+    { label: "FAQ", href: "/donate/#faq" },
+    { label: "Refund & Cancellation", href: "/donate/#refundpolicy" },
   ],
 
   socialLinks: [
