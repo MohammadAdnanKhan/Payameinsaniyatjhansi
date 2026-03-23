@@ -10,9 +10,13 @@ export default function ProjectTabs() {
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-6">
-      <h2 className="text-3xl md:text-5xl font-semibold text-center">
-        <span className="text-primary">Our</span>{" "}
-        <span className="text-secondary">Projects</span>
+      <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+        <span className="relative z-10 text-primary">Our </span>
+        <span className="relative inline-block">
+          <span className="text-secondary"> Projects</span>
+
+          <span className="absolute bottom-2 left-0 w-full h-4 bg-secondary/20 -z-10 -rotate-2"></span>
+        </span>{" "}
       </h2>
 
       <div className="flex flex-wrap justify-center gap-3 mt-12">

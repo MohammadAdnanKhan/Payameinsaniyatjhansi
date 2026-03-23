@@ -18,7 +18,7 @@ export default function AboutHero() {
             Our Story
           </p>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.2rem] leading-tight text-secondary font-[var(--font-heading)] font-bold">
+          {/* <h1 className="text-3xl sm:text-4xl lg:text-[3.2rem] leading-tight text-secondary font-[var(--font-heading)] font-bold">
             Together We Create
             <span className="block mt-2">
               <FlipWords
@@ -32,8 +32,31 @@ export default function AboutHero() {
                 className="text-primary italic"
               />
             </span>
-          </h1>
+          </h1> */}
+          <h1 className="text-3xl sm:text-4xl lg:text-[3.2rem] leading-tight text-secondary font-[var(--font-heading)] font-bold">
+            Together We Create
+            <span className="block mt-2">
+              <span className="relative inline-block">
+                <span className="relative z-10 text-primary italic inline-block">
+                  <FlipWords
+                    words={[
+                      "opportunity.",
+                      "hope.",
+                      "dignity.",
+                      "education.",
+                      "a better future.",
+                    ]}
+                  />
+                </span>
 
+                <span
+                  className="absolute bottom-1 left-0 h-4 bg-primary/20 -z-10 -rotate-2 
+                       transition-all duration-500 ease-in-out"
+                  style={{ width: "100%" }}
+                />
+              </span>
+            </span>
+          </h1>
           <p className="text-base sm:text-lg text-gray-700 max-w-xl">
             Our organization began with a simple belief — that small acts of
             kindness can ripple outward and transform communities. Through

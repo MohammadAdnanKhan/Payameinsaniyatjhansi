@@ -29,12 +29,13 @@ export default function StoryTabs() {
 
   return (
     <section className="max-w-6xl mx-auto px-6">
-      <h2
-        className="text-3xl md:text-5xl font-semibold tracking-tight text-center"
-        style={{ fontFamily: "var(--font-heading)" }}
-      >
-        <span className="text-primary">Our</span>{" "}
-        <span className="text-secondary">Journey</span>
+      <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+        <span className="relative z-10 text-primary">Our </span>
+        <span className="relative inline-block">
+          <span className="text-secondary"> Journey</span>
+
+          <span className="absolute bottom-2 left-0 w-full h-4 bg-secondary/20 -z-10 -rotate-2"></span>
+        </span>{" "}
       </h2>
 
       <div className="flex justify-center mt-12 gap-6 flex-wrap relative">

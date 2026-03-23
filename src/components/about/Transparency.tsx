@@ -1,61 +1,49 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import {
-  BadgeCheck,
-  ShieldCheck,
-  HeartHandshake,
-  Users
-} from "lucide-react"
+import { motion } from "framer-motion";
+import { BadgeCheck, ShieldCheck, HeartHandshake, Users } from "lucide-react";
 
 export default function Transparency() {
-
   const items = [
-
     {
       title: "12A Registered",
       description:
         "Our organization is officially registered under Section 12A, ensuring compliance and accountability in our charitable operations.",
-      icon: BadgeCheck
+      icon: BadgeCheck,
     },
 
     {
       title: "80G Certified",
       description:
         "Donations made to our organization qualify for tax benefits under Section 80G, encouraging transparent and impactful giving.",
-      icon: ShieldCheck
+      icon: ShieldCheck,
     },
 
     {
       title: "Transparent Donations",
       description:
         "Every contribution is tracked and utilized responsibly, with clear reporting to maintain trust with our supporters.",
-      icon: HeartHandshake
+      icon: HeartHandshake,
     },
 
     {
       title: "Community Driven",
       description:
         "Our programs are powered by volunteers and community members working together to create meaningful social impact.",
-      icon: Users
-    }
-
-  ]
+      icon: Users,
+    },
+  ];
 
   return (
-
     <section className="bg-[var(--boldtheme)] py-24">
-
       <div className="max-w-6xl mx-auto px-6">
-
-
         <div className="text-center max-w-2xl mx-auto">
-
-          <h2 className="text-3xl md:text-5xl font-semibold">
-
-            <span className="text-primary">Transparency</span>{" "}
+          <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">Transparency</span>
+              <span className="absolute bottom-2 left-0 w-full h-4 bg-primary/30 z-10 -rotate-2"></span>
+            </span>{" "}
             <span className="text-secondary">& Trust</span>
-
           </h2>
 
           <p className="text-slate-600 mt-4 leading-relaxed">
@@ -63,17 +51,13 @@ export default function Transparency() {
             Our commitment to transparency ensures every contribution creates
             real and measurable change.
           </p>
-
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 mt-14">
-
           {items.map((item, i) => {
-
-            const Icon = item.icon
+            const Icon = item.icon;
 
             return (
-
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
@@ -82,17 +66,12 @@ export default function Transparency() {
                 viewport={{ once: true }}
                 className="group bg-white/80 backdrop-blur-sm border border-secondary/10 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300"
               >
-
                 <div className="flex items-start gap-5">
-
                   <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:scale-110 transition">
-
                     <Icon size={26} />
-
                   </div>
 
                   <div>
-
                     <h3 className="text-xl font-semibold text-secondary">
                       {item.title}
                     </h3>
@@ -100,22 +79,13 @@ export default function Transparency() {
                     <p className="text-slate-600 mt-2 leading-relaxed">
                       {item.description}
                     </p>
-
                   </div>
-
                 </div>
-
               </motion.div>
-
-            )
-
+            );
           })}
-
         </div>
-
       </div>
-
     </section>
-
-  )
+  );
 }
