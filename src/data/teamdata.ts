@@ -131,14 +131,22 @@ export const teamMembers: ITeamMember[] = [
     message:
       "Contributes to on-ground implementation and supports team coordination, helping ensure that every initiative is carried out effectively.",
   },
-  // {
-  //   id: "c11",
-  //   name: "Ali Sher",
-  //   image: "/images/team/core12.webp",
-  //   category: "core",
-  //   message:
-  //     "Assisting in logistics and on-field implementation of NGO initiatives.",
-  // },
+  {
+    id: "c11",
+    name: "Ali Sher",
+    image: "/images/team/core12.webp",
+    category: "core",
+    message:
+      "Assisting in logistics and on-field implementation of NGO initiatives.",
+  },
+  {
+    id: "c12",
+    name: "Nooruddin Saleem",
+    image: "/images/team/core13.jpeg",
+    category: "core",
+    message:
+      "Contributes to on-ground implementation and supports team coordination, helping ensure that every initiative is carried out effectively.",
+  },
 
   // // Volunteers
   // {

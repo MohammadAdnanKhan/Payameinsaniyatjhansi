@@ -24,13 +24,14 @@ export default function VideoGallery() {
             <PlayCircle className="w-4 h-4" />
             Watch Our Work
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 tracking-tight text-foreground leading-[1.15]">
-            <span className="relative z-10 text-primary">Impact in </span>
-            <span className="relative inline-block">
-              <span className="text-secondary relative z-10">Action</span>
-              <span className="absolute bottom-1 left-0 w-full h-3 bg-secondary/20 -z-10 -rotate-2"></span>
-            </span>
-          </h2>
+      <h2 className="text-3xl md:text-5xl text-center font-semibold mb-4 tracking-tight text-[var(--foreground)] leading-[1.15]">
+        <span className="relative z-10 text-primary">Impact in </span>
+        <span className="relative inline-block">
+          <span className="text-secondary"> Action</span>
+
+          <span className="absolute bottom-2 left-0 w-full h-4 bg-secondary/20 -z-10 -rotate-2"></span>
+        </span>{" "}
+      </h2>
           <p className="text-gray-500 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
             See the real-world difference our volunteers and donors are making on the ground every single day.
           </p>
