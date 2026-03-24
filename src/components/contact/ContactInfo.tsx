@@ -24,13 +24,13 @@ export default function ContactInfo({ ngoDetails }: any) {
           
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 sm:gap-4">
             <a 
-              href="#" 
+              href="https://www.instagram.com/payam_e_insaniyat_since2020" 
               className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 rounded-full bg-gray-900 text-white font-medium hover:bg-pink-600 hover:shadow-xl hover:shadow-pink-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-95"
             >
               <Instagram className="w-5 h-5" /> Instagram
             </a>
             <a 
-              href="#" 
+              href="https://www.facebook.com/share/1BMTQM2X71/" 
               className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 rounded-full bg-gray-900 text-white font-medium hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1 active:scale-95"
             >
               <Facebook className="w-5 h-5" /> Facebook
