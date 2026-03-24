@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/utils/cn"; 
+import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +17,7 @@ import { INavItem } from "@/types/types";
 interface FloatingNavbarProps {
   navItems: INavItem[];
   className?: string;
-  audioSrc?: string; 
+  audioSrc?: string;
 }
 
 const FloatingNavbar = ({
@@ -35,7 +35,7 @@ const FloatingNavbar = ({
     const handleSupportToggle = (e: Event) => {
       const customEvent = e as CustomEvent<boolean>;
       setIsSupportModalOpen(customEvent.detail);
-      
+
       // Auto-close mobile menu if support modal opens
       if (customEvent.detail) {
         setIsMenuOpen(false);
@@ -43,7 +43,8 @@ const FloatingNavbar = ({
     };
 
     window.addEventListener("supportModalToggle", handleSupportToggle);
-    return () => window.removeEventListener("supportModalToggle", handleSupportToggle);
+    return () =>
+      window.removeEventListener("supportModalToggle", handleSupportToggle);
   }, []);
 
   // Audio Setup
@@ -69,7 +70,7 @@ const FloatingNavbar = ({
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
           console.error("Audio playback failed:", error);
-          setIsPlaying(false); 
+          setIsPlaying(false);
         });
       }
     } else {
@@ -93,13 +94,13 @@ const FloatingNavbar = ({
               "border border-[var(--color-primary)]/20",
               "bg-[var(--theme)]/60",
               "shadow-[0_8px_30px_rgba(0,0,0,0.08)]",
-              className
+              className,
             )}
           >
             <div className="flex items-center gap-8">
               {navItems?.map((navItem) => (
                 <Link
-                  key={navItem.name} 
+                  key={navItem.name}
                   href={navItem.link}
                   aria-label={navItem.name}
                   className="
@@ -144,7 +145,7 @@ const FloatingNavbar = ({
       {/* MOBILE TRIGGER BUTTON */}
       <AnimatePresence mode="wait">
         {!isSupportModalOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
@@ -234,23 +235,25 @@ const FloatingNavbar = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.05 }}
               >
-                <Link
-                  href="/support"
-                  onClick={() => setIsMenuOpen(false)}
+                <button
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent("supportModalToggle", { detail: true }));
+                    setIsMenuOpen(false);
+                  }}
                   className="
-                    flex items-center gap-4 px-4 py-3 rounded-xl
-                    bg-[var(--color-primary)]/10 text-[var(--color-primary)]
-                    font-semibold transition-all duration-300
-                    hover:bg-[var(--color-primary)] hover:text-white
-                    active:scale-95 group
-                  "
+    flex items-center gap-4 px-4 py-3 rounded-xl
+    bg-[var(--color-primary)]/10 text-[var(--color-primary)]
+    font-semibold transition-all duration-300
+    hover:bg-[var(--color-primary)] hover:text-white
+    active:scale-95 group w-full text-left
+  "
                 >
                   <FontAwesomeIcon
                     icon={faHeart}
                     className="transition-transform duration-300 group-hover:scale-110"
                   />
                   Support
-                </Link>
+                </button>
               </motion.div>
 
               {audioSrc && (

@@ -8,9 +8,26 @@ import SupportModal from "./support";
 export default function Support() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  // useEffect(() => {
+  //   const event = new CustomEvent("supportModalToggle", { detail: isOpen });
+  //   window.dispatchEvent(event);
+  // }, [isOpen]);
   useEffect(() => {
-    const event = new CustomEvent("supportModalToggle", { detail: isOpen });
-    window.dispatchEvent(event);
+    const handler = (e: any) => {
+      if (e.detail !== isOpen) {
+        setIsOpen(e.detail);
+      }
+    };
+
+    window.addEventListener("supportModalToggle", handler);
+    return () => window.removeEventListener("supportModalToggle", handler);
+  }, [isOpen]);
+
+  useEffect(() => {
+
+    window.dispatchEvent(
+      new CustomEvent("supportModalToggle", { detail: isOpen }),
+    );
   }, [isOpen]);
 
   return (
@@ -32,12 +49,14 @@ export default function Support() {
           shadow-md
         "
       >
-        <span className="
+        <span
+          className="
           absolute inset-0 rounded-full
           bg-primary opacity-0
           group-hover:opacity-20
           blur-lg transition duration-300
-        " />
+        "
+        />
 
         <FontAwesomeIcon
           icon={faHeart}
@@ -51,10 +70,7 @@ export default function Support() {
         />
       </button>
 
-      <SupportModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+      <SupportModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

@@ -64,6 +64,7 @@ import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/additional/top";
 import WhatsAppButton from "@/components/additional/whatsappbutton";
 import { navMenus } from "@/data/navMenus";
+import Support from "@/components/support/supportbutton";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -150,7 +151,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="font-body antialiased bg-[var(--theme)] text-[var(--foreground)] overflow-x-hidden flex flex-col min-h-screen">
         <FloatingNavbar className="app_nav" navItems={navMenus} audioSrc="/audio/audio.mp3" />
         <LogoBar />
-        
+        <Support/>
         <main className="flex-grow">
           {children}
         </main>
