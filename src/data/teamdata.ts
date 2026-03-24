@@ -167,10 +167,18 @@ export const teamMembers: ITeamMember[] = [
     message:
       "Actively involved in youth-led initiatives, helping raise awareness and encouraging young individuals to participate in meaningful community efforts.",
   },
+    {
+    id: "y3",
+    name: "Azeem Khan",
+    image: "/images/team/azeem.jpeg",
+    category: "youth",
+    message:
+      "Passionate about social impact and motivating young volunteers to come forward, contribute, and become part of positive change in society.",
+  },
   {
     id: "y2",
-    name: "XYZ",
-    image: "/images/team/core2.webp",
+    name: "Tauseeb Ali",
+    image: "/images/team/tauseeb.jpeg",
     category: "youth",
     message:
       "Passionate about social impact and motivating young volunteers to come forward, contribute, and become part of positive change in society.",
