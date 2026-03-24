@@ -56,8 +56,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Poppins, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
-// Components
 import FloatingNavbar from "@/components/navbar/navbar";
 import LogoBar from "@/components/logobar/logobar";
 import Footer from "@/components/footer/footer";
@@ -158,6 +158,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <WhatsAppButton />
         <ScrollToTop />
         <Footer />
+        <GoogleAnalytics gaId="G-4GWYFTV6LV" />
       </body>
     </html>
   );
