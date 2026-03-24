@@ -95,7 +95,7 @@ export default function DonatePage() {
             </span>{" "}
             {/* <span className="text-primary">Your support helps provide</span>{" "} */}
             <span className="text-secondary">
-              meals and daily necessities to children in real need.
+              meals and daily necessities to those in real need.
             </span>
           </h2>
 
