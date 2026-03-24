@@ -20,11 +20,17 @@ export default function HeroRightClient() {
 
         <div className="mt-3 h-1 w-12 bg-primary rounded-full" />
       </div>
-      <div
+      {/* <div
         className="absolute bottom-4 left-4 right-4 sm:top-6 sm:right-6 sm:bottom-auto sm:left-auto
         bg-secondary/90 backdrop-blur-md text-background p-4 sm:p-5
         rounded-xl sm:rounded-2xl shadow-lg border border-white/10
         max-w-[220px] hero-card-float"
+      > */}
+      <div
+        className="hidden sm:block absolute bottom-4 left-4 right-4 sm:top-6 sm:right-6 sm:bottom-auto sm:left-auto
+          bg-secondary/90 backdrop-blur-md text-background p-4 sm:p-5
+          rounded-xl sm:rounded-2xl shadow-lg border border-white/10
+          max-w-[220px] hero-card-float"
       >
         <p className="text-[10px] uppercase tracking-wide opacity-80 mb-2">
           Words to Remember
