@@ -101,7 +101,7 @@ const Footer = () => {
                   className="mt-1 text-primary"
                 />
                 <span>
-                  A2, Deen Dayal Nagar,
+                  A3, Deen Dayal Nagar,
                   <br />
                   Jhansi, Uttar Pradesh – 284003
                   <br />
