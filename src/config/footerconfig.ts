@@ -27,17 +27,17 @@ export const FOOTER_LINKS = {
   socialLinks: [
     {
       label: "Facebook",
-      href: "https://facebook.com",
+      href: "https://www.facebook.com/share/1BMTQM2X71/",
       icon: faFacebookF,
     },
     {
       label: "Instagram",
-      href: "https://instagram.com",
+      href: "https://www.instagram.com/payam_e_insaniyat_since2020",
       icon: faInstagram,
     },
     {
       label: "YouTube",
-      href: "https://youtube.com",
+      href: "https://www.youtube.com/@payameinsaaniyatforumjhans3447",
       icon: faYoutube,
     },
   ],
