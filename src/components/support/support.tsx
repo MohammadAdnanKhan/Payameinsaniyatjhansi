@@ -70,7 +70,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
       >
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 text-primary text-xl hover:scale-110 transition"
+          className="absolute right-2 top-3 text-primary text-xl hover:scale-110 transition"
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>

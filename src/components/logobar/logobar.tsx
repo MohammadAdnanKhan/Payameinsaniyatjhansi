@@ -4,32 +4,31 @@ import React from "react";
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import Support from "../support/supportbutton";
-
+import Image from "next/image";
 export default function LogoBar() {
   return (
     <div className="w-full bg-theme  relative z-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-2 sm:py-3 lg:py-4 gap-4">
-          
           <div className="flex items-center gap-4 lg:gap-6 min-w-0">
             <Link
               href="/"
               className="shrink-0 transition-transform duration-300 hover:scale-105 active:scale-95 group"
             >
-              <img
+              <Image
                 src="/logo.png"
                 alt="NGO Logo"
+                width={200}
+                height={96}
                 className="h-10 sm:h-12 md:h-14 lg:h-16 xl:h-20 2xl:h-24 w-auto object-contain"
               />
             </Link>
 
             <div className="hidden md:flex items-center pl-4 lg:pl-5 py-1 shrink-0 relative">
-            
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-[70%] bg-gradient-to-b from-primary/0 via-primary/30 to-primary/0 rounded-full" />
-              
+
               <div className="flex flex-col justify-center">
                 <div className="flex items-center gap-1.5 mb-0.5">
-
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/50 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
@@ -53,7 +52,6 @@ export default function LogoBar() {
                   Verified NGO
                 </span>
               </div>
-
             </div>
 
             <div className="flex items-center justify-end shrink-0">
