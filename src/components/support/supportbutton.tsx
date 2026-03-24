@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import SupportModal from "./support";
 
 export default function Support() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const event = new CustomEvent("supportModalToggle", { detail: isOpen });
+    window.dispatchEvent(event);
+  }, [isOpen]);
 
   return (
     <>
@@ -27,7 +32,6 @@ export default function Support() {
           shadow-md
         "
       >
-
         <span className="
           absolute inset-0 rounded-full
           bg-primary opacity-0
