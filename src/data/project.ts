@@ -14,7 +14,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹1,85,299",
       volunteers: "13",
     },
-    projectUrl: "/majorprojects/roti-bank",
+    projectUrl: "/about",
   },
 
   {
@@ -30,7 +30,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹2,20,550",
       volunteers: "15",
     },
-    projectUrl: "/majorprojects/rozgar-bank",
+    projectUrl: "/about",
   },
 
   {
@@ -46,7 +46,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹70,000",
       volunteers: "50",
     },
-    projectUrl: "/majorprojects/medical-camps",
+    projectUrl: "/about",
   },
 
   {
@@ -62,7 +62,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹1,20,000",
       volunteers: "20",
     },
-    projectUrl: "/majorprojects/kapda-bank",
+    projectUrl: "/about",
   },
 
   {
@@ -78,7 +78,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹57,700",
       volunteers: "110",
     },
-    projectUrl: "/majorprojects/shadibank",
+    projectUrl: "/about",
   },
 
   {
@@ -94,7 +94,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹84,000",
       volunteers: "110",
     },
-    projectUrl: "/projects/environmental-activism",
+    projectUrl: "/about",
   },
 
   {
@@ -110,7 +110,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹1,57,000",
       volunteers: "8+",
     },
-    projectUrl: "/projects/antim-yatra-service",
+    projectUrl: "/about",
   },
 
   {
@@ -126,7 +126,7 @@ export const projects: IMajorProject[] = [
       fundsRaised: "—",
       volunteers: "10",
     },
-    projectUrl: "/projects/community-support",
+    projectUrl: "/about",
   },
 
   {
@@ -142,6 +142,6 @@ export const projects: IMajorProject[] = [
       fundsRaised: "₹5,37,050+",
       volunteers: "28+",
     },
-    projectUrl: "/projects/crowdsourcing",
+    projectUrl: "/about",
   },
 ];
