@@ -90,7 +90,7 @@ export const projects: IMajorProject[] = [
       "Leading tree plantation drives and environmental awareness campaigns to protect biodiversity and promote sustainable ecological practices.",
     image: "/majorprojects/environment.webp",
     impact: {
-      beneficiaries: "n/a",
+      beneficiaries: "—",
       fundsRaised: "₹84,000",
       volunteers: "110",
     },
@@ -122,8 +122,8 @@ export const projects: IMajorProject[] = [
       "Preserving historical heritage sites while offering free drinking water services and community welfare initiatives for public benefit.",
     image: "/majorprojects/community.webp",
     impact: {
-      beneficiaries: "n/a",
-      fundsRaised: "n/a",
+      beneficiaries: "—",
+      fundsRaised: "—",
       volunteers: "10",
     },
     projectUrl: "/projects/community-support",
