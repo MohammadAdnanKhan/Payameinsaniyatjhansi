@@ -13,6 +13,18 @@ import { cn } from "@/utils/cn";
 /** Collapsed bubble height, in px. Anything taller gets a "Read more". */
 const CLAMP_HEIGHT = 240;
 
+/**
+ * Pinned locale + timezone so the server and browser render the same string.
+ * The visitor's own locale differs from the build machine's and trips a
+ * hydration mismatch.
+ */
+const timeFormatter = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+});
+
 /** Typography for Sanity rich text inside a chat bubble. */
 const portableComponents: PortableTextComponents = {
   block: {
@@ -224,10 +236,7 @@ export default function NewsCard({ news, showAvatar = true }: Props) {
           <NewsActions title={news.title} />
 
           <span className="tnum flex shrink-0 items-center text-[0.7rem] font-medium text-slate-400">
-            {published?.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
+            {published ? timeFormatter.format(published) : null}
             <ReadReceipt />
           </span>
         </div>

@@ -58,8 +58,16 @@ export default function ProjectTabs() {
   const step = (dir: -1 | 1) =>
     setActiveIndex((i) => (i + dir + projects.length) % projects.length);
 
+  /*
+    Note on the section below: `w-full` is load-bearing. This section is a
+    child of the about page's `flex flex-col` main, and `mx-auto` gives it auto
+    cross-axis margins, which disable flex stretching — so without an explicit
+    width it shrink-wraps to its *intrinsic* width. The horizontally scrolling
+    tab rail reports ~1920px of intrinsic content, so on phones the section laid
+    out at the full max-w-6xl and the parent's overflow-hidden clipped it.
+  */
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+    <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 md:py-16">
       {/* --- HEADER (unchanged markup) --- */}
       <h2 className="text-3xl md:text-5xl text-center font-semibold mb-12 tracking-tight text-[var(--foreground)] leading-[1.15]">
         <span className="relative z-10 text-primary">Our </span>

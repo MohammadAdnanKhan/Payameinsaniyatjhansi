@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Loader2, ChevronDown, CheckCheck } from "lucide-react";
 import { client } from "../../../sanity/lib/sanity.client";
@@ -10,28 +10,37 @@ import NewsSkeleton from "@/components/news/NewsSkeleton";
 
 const PAGE_SIZE = 3;
 
-/** "Today" / "Yesterday" / "12 March 2026" — the WhatsApp date chip. */
-function dayLabel(iso?: string) {
-  if (!iso) return "Earlier";
+/**
+ * Dates are pinned to a fixed locale and timezone so the server and the
+ * browser always produce the same string. Left to the visitor's own locale
+ * they disagree and React throws a hydration error.
+ */
+const dayFormatter = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
+/** Stable grouping key, identical on server and client. */
+function absoluteDay(iso?: string) {
+  if (!iso) return "Earlier";
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "Earlier";
+  return dayFormatter.format(date);
+}
 
-  const startOfDay = (d: Date) =>
-    new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-
-  const diffDays = Math.round(
-    (startOfDay(new Date()) - startOfDay(date)) / 86_400_000,
-  );
-
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-
-  return date.toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "long",
-    year: date.getFullYear() === new Date().getFullYear() ? undefined : "numeric",
-  });
+/**
+ * "Today" / "Yesterday" — client-only. This page is prerendered at build time,
+ * so anything relative to "now" computed on the server would be frozen to the
+ * build date. Comparing pre-formatted strings keeps it free of timezone maths.
+ */
+function relativeDay(absolute: string) {
+  if (absolute === "Earlier") return absolute;
+  if (absolute === dayFormatter.format(new Date())) return "Today";
+  if (absolute === dayFormatter.format(new Date(Date.now() - 86_400_000)))
+    return "Yesterday";
+  return absolute;
 }
 
 export default function NewsFeed({ initialNews }: any) {
@@ -40,18 +49,24 @@ export default function NewsFeed({ initialNews }: any) {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialNews.length === PAGE_SIZE);
 
+  /* Relative day names only appear once we are on the client. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   /**
    * Flatten the feed into render instructions: a date chip whenever the day
-   * changes, and an avatar only on the first bubble under each chip.
+   * changes, and an avatar only on the first bubble under each chip. Grouping
+   * keys off the absolute date so the markup structure is identical on both
+   * sides of hydration — only the chip's wording upgrades afterwards.
    */
   const rows = useMemo(() => {
-    let lastLabel: string | null = null;
+    let lastDay: string | null = null;
 
     return news.map((item: any) => {
-      const label = dayLabel(item.publishedAt);
-      const isNewDay = label !== lastLabel;
-      lastLabel = label;
-      return { item, label, isNewDay };
+      const absolute = absoluteDay(item.publishedAt);
+      const isNewDay = absolute !== lastDay;
+      lastDay = absolute;
+      return { item, absolute, isNewDay };
     });
   }, [news]);
 
@@ -72,12 +87,12 @@ export default function NewsFeed({ initialNews }: any) {
 
   return (
     <div className="space-y-3">
-      {rows.map(({ item, label, isNewDay }: any) => (
+      {rows.map(({ item, absolute, isNewDay }: any) => (
         <div key={item._id} className="space-y-3">
           {isNewDay && (
             <div className="flex justify-center py-2">
               <span className="rounded-full bg-white/80 px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-slate-500 shadow-sm backdrop-blur-sm">
-                {label}
+                {mounted ? relativeDay(absolute) : absolute}
               </span>
             </div>
           )}

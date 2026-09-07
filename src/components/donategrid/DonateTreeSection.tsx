@@ -99,8 +99,15 @@ export default function DonateTreeSection() {
             ))}
           </div>
 
-          {/* ---------- Closing link: the only call to action ---------- */}
-          <div className="relative mt-10 md:mt-12">
+          {/*
+            ---------- Closing link: the only call to action ----------
+            The gap above the card is PADDING on this wrapper, not a margin on
+            the card. The heart marker below is absolutely positioned, so the
+            card is this wrapper's first in-flow child — a top margin on it
+            would collapse through the wrapper and drop the card straight back
+            under the marker.
+          */}
+          <div className="relative mt-10 md:mt-12 md:pt-24">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
@@ -122,14 +129,13 @@ export default function DonateTreeSection() {
             </motion.div>
 
             {/* Opaque on purpose: the spine runs behind this card on desktop
-                and should visually terminate at the dot above it.
-                md:mt-24 clears the 44px heart marker sitting at top-6. */}
+                and should visually terminate at the marker above it. */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="ml-12 overflow-hidden rounded-[26px] border border-primary/20 bg-white p-6 shadow-[0_20px_50px_-32px_rgba(15,23,42,0.55)] sm:p-8 md:ml-0 md:mt-24"
+              className="ml-12 overflow-hidden rounded-[26px] border border-primary/20 bg-white p-6 shadow-[0_20px_50px_-32px_rgba(15,23,42,0.55)] sm:p-8 md:ml-0"
             >
               <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-start gap-4">

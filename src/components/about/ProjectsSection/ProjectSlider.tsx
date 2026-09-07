@@ -10,15 +10,24 @@ interface ProjectSliderProps {
   images: string[];
 }
 
+/** How many neighbours either side get a real <Image> mounted. */
+const PRELOAD_RADIUS = 2;
+
+/** Horizontal travel (px) that counts as a swipe rather than a tap. */
+const SWIPE_THRESHOLD = 45;
+
 export default function ProjectSlider({ images }: ProjectSliderProps) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const thumbRailRef = useRef<HTMLDivElement>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const tiltFrame = useRef(0);
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const didSwipe = useRef(false);
 
   const count = images?.length ?? 0;
 
@@ -55,7 +64,7 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
         return;
       }
 
-      const el = containerRef.current;
+      const el = stageRef.current;
       if (!el) return;
       const engaged =
         el.matches(":hover") ||
@@ -102,27 +111,78 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
     });
   }, [index]);
 
+  useEffect(() => () => cancelAnimationFrame(tiltFrame.current), []);
+
   const openLightbox = (i: number) => {
     setLightboxIndex(i);
     setLightbox(true);
   };
 
-  /** Parallax tilt for the centre card (desktop pointers only). */
-  function handleMouseMove(e: React.MouseEvent) {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setMouse({
-      x: (e.clientX - rect.left) / rect.width - 0.5,
-      y: (e.clientY - rect.top) / rect.height - 0.5,
+  /**
+   * Pointer tilt. Written straight to CSS custom properties inside one
+   * rAF per frame — deliberately not React state, which would re-render
+   * every card in the stack on every mouse move.
+   */
+  function handlePointerMove(e: React.PointerEvent) {
+    if (e.pointerType !== "mouse") return;
+
+    const { clientX, clientY } = e;
+    if (tiltFrame.current) return;
+
+    tiltFrame.current = requestAnimationFrame(() => {
+      tiltFrame.current = 0;
+      const el = stageRef.current;
+      if (!el) return;
+
+      const r = el.getBoundingClientRect();
+      const x = (clientX - r.left) / r.width - 0.5;
+      const y = (clientY - r.top) / r.height - 0.5;
+
+      el.style.setProperty("--tilt-y", `${(x * 9).toFixed(2)}deg`);
+      el.style.setProperty("--tilt-x", `${(-y * 8).toFixed(2)}deg`);
     });
   }
 
-  function getPosition(i: number) {
+  function resetTilt() {
+    const el = stageRef.current;
+    if (!el) return;
+    el.style.setProperty("--tilt-y", "0deg");
+    el.style.setProperty("--tilt-x", "0deg");
+  }
+
+  /* ---- Swipe / tap discrimination ---- */
+  function handlePointerDown(e: React.PointerEvent) {
+    pointerStart.current = { x: e.clientX, y: e.clientY };
+    didSwipe.current = false;
+  }
+
+  function handlePointerUp(e: React.PointerEvent) {
+    const start = pointerStart.current;
+    pointerStart.current = null;
+    if (!start) return;
+
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+
+    if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+      didSwipe.current = true;
+      if (dx < 0) next();
+      else prev();
+    }
+  }
+
+  function positionOf(i: number) {
     const diff = i - index;
     if (diff === 0) return "center";
     if (diff === -1 || diff === count - 1) return "left";
     if (diff === 1 || diff === -(count - 1)) return "right";
-    return "hidden";
+    return "far";
+  }
+
+  /** Circular distance from the active slide. */
+  function distanceFrom(i: number) {
+    const d = Math.abs(i - index);
+    return Math.min(d, count - d);
   }
 
   if (!images || count === 0) {
@@ -136,121 +196,98 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
   return (
     <div className="relative w-full select-none">
       {/* ---------------- STAGE ---------------- */}
-      <div
-        ref={containerRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setMouse({ x: 0, y: 0 })}
-        className="group relative flex h-[210px] items-center justify-center rounded-3xl [perspective:2000px] sm:h-[340px] md:h-[480px]"
-      >
-        {/* Soft pedestal shadow under the stack */}
+      <div className="group relative">
         <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-4 left-1/2 h-8 w-[60%] -translate-x-1/2 rounded-[50%] bg-black/20 blur-2xl"
-        />
+          ref={stageRef}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={resetTilt}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={() => (pointerStart.current = null)}
+          className="cf-stage"
+        >
+          {/* Sets the stage height from the card's own fluid size */}
+          <div aria-hidden className="cf-sizer" />
 
+          {images.map((img, i) => {
+            const pos = positionOf(i);
+            const near = distanceFrom(i) <= PRELOAD_RADIUS;
+
+            return (
+              <div
+                key={`slide-${i}`}
+                data-pos={pos}
+                /* Tinted well shows behind the letterboxed photo in simple
+                   mode; from md up the image covers the card edge to edge. */
+                className="cf-card bg-slate-900/[0.06] ring-1 ring-black/5 md:bg-transparent"
+                onClick={() => {
+                  // A swipe that ends on the card must not also open it.
+                  if (didSwipe.current) {
+                    didSwipe.current = false;
+                    return;
+                  }
+                  if (pos === "center") openLightbox(i);
+                  else if (pos === "left" || pos === "right") setIndex(i);
+                }}
+              >
+                {near && (
+                  <>
+                    <span aria-hidden className="cf-shade" />
+
+                    {pos === "center" && (
+                      <div className="absolute inset-0 z-20 hidden items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 hover:opacity-100 md:flex">
+                        <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2.5 text-sm font-semibold text-white">
+                          <Maximize2 className="h-4 w-4" />
+                          View full screen
+                        </span>
+                      </div>
+                    )}
+
+                    {/* `contain` on phones so no part of the photo is cut
+                        off; `cover` once the card is big enough to fill. */}
+                    <Image
+                      src={img}
+                      alt={`Project image ${i + 1}`}
+                      fill
+                      className="object-contain md:object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 62vw, 620px"
+                      priority={i === 0}
+                      draggable={false}
+                    />
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Arrows sit outside the stage so they never eat pointer events
+            meant for the swipe surface. Always visible from `sm` up —
+            hover-gating them hid them entirely on touch tablets. */}
         <button
           onClick={prev}
           aria-label="Previous image"
-          className="absolute left-2 z-40 hidden rounded-full bg-white/50 p-3 text-gray-800 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 group-hover:opacity-100 focus-visible:opacity-100 sm:left-4 sm:block"
+          className="absolute left-1 top-1/2 z-40 hidden -translate-y-1/2 rounded-full bg-white/85 p-3 text-gray-800 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white active:scale-95 md:left-2 md:block lg:left-4"
         >
-          <ChevronLeft className="h-6 w-6" />
+          <ChevronLeft className="h-5 w-5 lg:h-6 lg:w-6" />
         </button>
 
         <button
           onClick={next}
           aria-label="Next image"
-          className="absolute right-2 z-40 hidden rounded-full bg-white/50 p-3 text-gray-800 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 group-hover:opacity-100 focus-visible:opacity-100 sm:right-4 sm:block"
+          className="absolute right-1 top-1/2 z-40 hidden -translate-y-1/2 rounded-full bg-white/85 p-3 text-gray-800 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white active:scale-95 md:right-2 md:block lg:right-4"
         >
-          <ChevronRight className="h-6 w-6" />
+          <ChevronRight className="h-5 w-5 lg:h-6 lg:w-6" />
         </button>
 
         {/* Counter */}
-        <div className="tnum absolute right-3 top-3 z-40 rounded-full bg-black/45 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md sm:right-5 sm:top-5">
+        <div className="tnum absolute right-3 top-3 z-40 rounded-full bg-black/55 px-3 py-1 text-xs font-semibold text-white sm:right-5 sm:top-5">
           {index + 1} / {count}
         </div>
-
-        {images.map((img, i) => {
-          const position = getPosition(i);
-
-          const layer: Record<string, string> = {
-            center:
-              "z-30 scale-100 opacity-100 cursor-zoom-in shadow-[0_30px_70px_-25px_rgba(0,0,0,0.55)]",
-            left: "z-20 -translate-x-[46%] sm:-translate-x-[52%] md:-translate-x-[58%] scale-[0.78] sm:scale-[0.82] opacity-55 hover:opacity-90 cursor-pointer shadow-xl",
-            right:
-              "z-20 translate-x-[46%] sm:translate-x-[52%] md:translate-x-[58%] scale-[0.78] sm:scale-[0.82] opacity-55 hover:opacity-90 cursor-pointer shadow-xl",
-            hidden: "opacity-0 pointer-events-none scale-[0.7]",
-          };
-
-          const rotateY =
-            position === "center"
-              ? mouse.x * 9
-              : position === "left"
-                ? -26
-                : position === "right"
-                  ? 26
-                  : 0;
-          const rotateX = position === "center" ? -mouse.y * 8 : 0;
-
-          return (
-            <motion.div
-              key={`image-${i}`}
-              drag={position === "center" ? "x" : false}
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.14}
-              onDragEnd={(_, info) => {
-                if (info.offset.x < -60) next();
-                else if (info.offset.x > 60) prev();
-              }}
-              className={cn(
-                "absolute overflow-hidden rounded-2xl ring-1 ring-black/5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
-                layer[position],
-              )}
-              style={{
-                transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`,
-                transformStyle: "preserve-3d",
-              }}
-              onClick={() =>
-                position === "center" ? openLightbox(i) : setIndex(i)
-              }
-            >
-              <div className="relative h-[140px] w-[210px] sm:h-[260px] sm:w-[390px] md:h-[400px] md:w-[600px]">
-                {/* Glossy pass — sells the 3D on the centre card, dims the sides */}
-                <div
-                  className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
-                  style={{
-                    background:
-                      position === "center"
-                        ? `linear-gradient(${118 + mouse.x * 55}deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 48%)`
-                        : "rgba(0,0,0,0.28)",
-                  }}
-                />
-
-                {position === "center" && (
-                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 hover:opacity-100">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2.5 text-xs font-semibold text-white backdrop-blur-md sm:text-sm">
-                      <Maximize2 className="h-4 w-4" />
-                      View full screen
-                    </span>
-                  </div>
-                )}
-
-                <Image
-                  src={img}
-                  alt={`Project image ${i + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width:768px) 80vw, 600px"
-                  priority={i === 0}
-                  draggable={false}
-                />
-              </div>
-            </motion.div>
-          );
-        })}
       </div>
 
       {/* ---------------- MOBILE CONTROLS ---------------- */}
-      <div className="mt-5 flex items-center justify-center gap-4 sm:hidden">
+      <div className="mt-5 flex items-center justify-center gap-4 md:hidden">
         <button
           onClick={prev}
           aria-label="Previous image"
@@ -298,6 +335,7 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
                 fill
                 className="object-cover"
                 sizes="96px"
+                loading="lazy"
               />
             </button>
           ))}
@@ -312,7 +350,7 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
       <AnimatePresence>
         {lightbox && (
           <motion.div
-            className="fixed inset-0 z-[7000] flex items-center justify-center bg-black/95 backdrop-blur-xl"
+            className="fixed inset-0 z-[7000] flex items-center justify-center bg-black/95"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -336,7 +374,7 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
             <button
               onClick={prevLightbox}
               aria-label="Previous image"
-              className="absolute left-3 z-50 rounded-full bg-white/5 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:left-8 sm:p-4"
+              className="absolute left-3 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:left-8 sm:p-4"
             >
               <ChevronLeft className="h-7 w-7 sm:h-8 sm:w-8" />
             </button>
@@ -344,7 +382,7 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
             <button
               onClick={nextLightbox}
               aria-label="Next image"
-              className="absolute right-3 z-50 rounded-full bg-white/5 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:right-8 sm:p-4"
+              className="absolute right-3 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:right-8 sm:p-4"
             >
               <ChevronRight className="h-7 w-7 sm:h-8 sm:w-8" />
             </button>

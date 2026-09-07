@@ -416,6 +416,160 @@ body.modal-open .floating-navbar {
 }
 
 /* ------------------------------------------------------------------ */
+/* Project coverflow (about page)                                       */
+/* ------------------------------------------------------------------ */
+
+/*
+  Geometry lives here rather than in Tailwind utilities for two reasons:
+  the card sizes are fluid percentages of the stage (so they scale smoothly
+  at every width instead of jumping at breakpoints), and keeping `translate`
+  and `scale` in CSS leaves `transform` free for the pointer tilt — which is
+  written straight to a custom property, never through React state.
+*/
+.cf-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1600px;
+  /* Let vertical page scrolling through; we only claim horizontal swipes. */
+  touch-action: pan-y;
+}
+
+/* Invisible flex item that gives the stage its height, so the whole thing
+   is sized by the cards rather than by hard-coded pixel heights. */
+.cf-sizer,
+.cf-card {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+/* Narrow screens have no room for neighbours: below `md` the carousel drops
+   the 3D entirely and shows one full-width photo (see the simple-mode block
+   further down). The coverflow only switches on once the stage is wide enough
+   to hold the flanking cards without slicing them off. */
+@media (min-width: 768px) {
+  .cf-sizer,
+  .cf-card {
+    width: 62%;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cf-sizer,
+  .cf-card {
+    width: 58%;
+  }
+}
+
+.cf-sizer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/*
+  Every card position is expressed through `transform` alone — never the
+  independent `translate` / `scale` properties. The CSS minifier lowers those
+  to `transform` for older targets, and when a rule declares both it drops the
+  individual one, which silently collapses the neighbours onto the centre card.
+
+  Ordering note: in a transform list the functions nest left to right, so the
+  leading `translateX(%)` resolves against the card's own unscaled width and is
+  unaffected by the trailing `scale()`.
+*/
+.cf-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 1rem;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform: scale(0.7);
+  transition:
+    transform 0.5s var(--ease-out-quint),
+    opacity 0.45s ease;
+}
+
+/* ---- Simple mode (below md): one photo, no 3D, nothing cropped ---- */
+
+.cf-card[data-pos="center"] {
+  z-index: 30;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: zoom-in;
+  transform: none;
+  box-shadow: 0 30px 70px -25px rgba(0, 0, 0, 0.55);
+  /* Shorter than the slide so the pointer tilt tracks the cursor closely
+     instead of dragging half a second behind it. */
+  transition-duration: 0.25s, 0.45s;
+}
+
+/* Neighbours stay mounted but invisible, offset just enough that changing
+   slide reads as a directional swipe rather than a bare cross-fade. */
+.cf-card[data-pos="left"] {
+  transform: translateX(-14%);
+}
+
+.cf-card[data-pos="right"] {
+  transform: translateX(14%);
+}
+
+.cf-card[data-pos="far"] {
+  transform: none;
+  opacity: 0;
+}
+
+/* ---- Coverflow (md and up) ---- */
+@media (min-width: 768px) {
+  .cf-card[data-pos="center"] {
+    transform: rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg));
+  }
+
+  .cf-card[data-pos="left"],
+  .cf-card[data-pos="right"] {
+    z-index: 20;
+    opacity: 0.5;
+    pointer-events: auto;
+    cursor: pointer;
+    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.45);
+  }
+
+  .cf-card[data-pos="left"] {
+    transform: translateX(-56%) rotateY(-26deg) scale(0.78);
+  }
+
+  .cf-card[data-pos="right"] {
+    transform: translateX(56%) rotateY(26deg) scale(0.78);
+  }
+
+  .cf-card[data-pos="left"]:hover,
+  .cf-card[data-pos="right"]:hover {
+    opacity: 0.85;
+  }
+
+  .cf-card[data-pos="far"] {
+    transform: scale(0.7);
+  }
+}
+
+/* Darkening pass over the neighbours; the centre card stays clean. */
+.cf-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.28);
+  transition: opacity 0.45s ease;
+}
+
+.cf-card[data-pos="center"] .cf-shade {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------ */
 /* Splash screen                                                        */
 /* ------------------------------------------------------------------ */
 
