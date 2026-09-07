@@ -69,9 +69,11 @@ const Donatecol = dynamic(() => import("../common/donatecolumn"));
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] bg-theme text-foreground px-10 overflow-hidden py-3">
+    <section className="relative min-h-[90vh] bg-theme text-foreground overflow-hidden py-3">
 
-      <div className="relative mx-auto max-w-7xl w-full">
+      {/* Padding lives on the hero block rather than the whole section, so the
+          sections below can manage their own gutters and go edge-to-edge. */}
+      <div className="relative mx-auto w-full max-w-7xl px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-center">
 
           <HeroClient />
@@ -101,7 +103,10 @@ export default function Hero() {
         </div>
       </div>
 
-      <Majorprojects />
+      <div className="px-6 sm:px-10">
+        <Majorprojects />
+      </div>
+
       <DonateTreeSection />
       <Donatecol />
     </section>

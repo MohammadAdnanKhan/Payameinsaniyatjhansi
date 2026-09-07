@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
@@ -17,129 +17,220 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const thumbRailRef = useRef<HTMLDivElement>(null);
+  const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Reset when images change
+  const count = images?.length ?? 0;
+
+  const next = useCallback(() => setIndex((p) => (p + 1) % count), [count]);
+  const prev = useCallback(
+    () => setIndex((p) => (p - 1 + count) % count),
+    [count],
+  );
+  const nextLightbox = useCallback(
+    () => setLightboxIndex((p) => (p + 1) % count),
+    [count],
+  );
+  const prevLightbox = useCallback(
+    () => setLightboxIndex((p) => (p - 1 + count) % count),
+    [count],
+  );
+
   useEffect(() => {
     setIndex(0);
     setLightboxIndex(0);
   }, [images]);
 
-  // Keyboard navigation
+  /**
+   * Arrow keys drive the lightbox whenever it is open, and the inline carousel
+   * only while it is hovered or focused — so they still scroll the page
+   * normally everywhere else.
+   */
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (lightbox) {
         if (e.key === "ArrowRight") nextLightbox();
         if (e.key === "ArrowLeft") prevLightbox();
         if (e.key === "Escape") setLightbox(false);
-      } else {
-        if (e.key === "ArrowRight") next();
-        if (e.key === "ArrowLeft") prev();
+        return;
+      }
+
+      const el = containerRef.current;
+      if (!el) return;
+      const engaged =
+        el.matches(":hover") ||
+        (document.activeElement instanceof Node &&
+          el.contains(document.activeElement));
+      if (!engaged) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        next();
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prev();
       }
     }
+
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
+  }, [lightbox, next, prev, nextLightbox, prevLightbox]);
+
+  /* Lock body scroll while the lightbox is open */
+  useEffect(() => {
+    if (!lightbox) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
   }, [lightbox]);
 
-  const next = () => setIndex((prev) => (prev + 1) % images.length);
-  const prev = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
-  const nextLightbox = () => setLightboxIndex((prev) => (prev + 1) % images.length);
-  const prevLightbox = () => setLightboxIndex((prev) => (prev - 1 + images.length) % images.length);
+  /* Keep the active thumbnail centred in its rail */
+  useEffect(() => {
+    const rail = thumbRailRef.current;
+    const thumb = thumbRefs.current[index];
+    if (!rail || !thumb) return;
+
+    rail.scrollTo({
+      left: Math.max(
+        0,
+        thumb.offsetLeft - rail.clientWidth / 2 + thumb.clientWidth / 2,
+      ),
+      behavior: "smooth",
+    });
+  }, [index]);
 
   const openLightbox = (i: number) => {
     setLightboxIndex(i);
     setLightbox(true);
   };
 
-  // 3D Tilt effect (Desktop only)
+  /** Parallax tilt for the centre card (desktop pointers only). */
   function handleMouseMove(e: React.MouseEvent) {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouse({ x, y });
+    setMouse({
+      x: (e.clientX - rect.left) / rect.width - 0.5,
+      y: (e.clientY - rect.top) / rect.height - 0.5,
+    });
   }
 
-  // Calculate carousel positioning
   function getPosition(i: number) {
     const diff = i - index;
     if (diff === 0) return "center";
-    if (diff === -1 || diff === images.length - 1) return "left";
-    if (diff === 1 || diff === -(images.length - 1)) return "right";
+    if (diff === -1 || diff === count - 1) return "left";
+    if (diff === 1 || diff === -(count - 1)) return "right";
     return "hidden";
   }
 
-  // Loading state
-  if (!images || images.length === 0) {
+  if (!images || count === 0) {
     return (
-      <div className="h-[250px] flex items-center justify-center text-gray-400 bg-gray-50 rounded-2xl border border-gray-100">
-        <span className="animate-pulse">Loading images...</span>
+      <div className="flex h-[250px] items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 text-gray-400">
+        <span className="animate-pulse">Loading images…</span>
       </div>
     );
   }
 
   return (
-    <div className="w-full relative select-none">
-      
-
+    <div className="relative w-full select-none">
+      {/* ---------------- STAGE ---------------- */}
       <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setMouse({ x: 0, y: 0 })}
-        className="relative flex items-center justify-center h-[200px] sm:h-[340px] md:h-[480px] perspective-[2000px] rounded-3xl group"
+        className="group relative flex h-[210px] items-center justify-center rounded-3xl [perspective:2000px] sm:h-[340px] md:h-[480px]"
       >
+        {/* Soft pedestal shadow under the stack */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-4 left-1/2 h-8 w-[60%] -translate-x-1/2 rounded-[50%] bg-black/20 blur-2xl"
+        />
 
         <button
-          onClick={(e) => { e.stopPropagation(); prev(); }}
-          className="absolute left-2 sm:left-4 z-40 p-3 rounded-full bg-white/30 hover:bg-white text-gray-800 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hidden sm:block active:scale-95"
+          onClick={prev}
+          aria-label="Previous image"
+          className="absolute left-2 z-40 hidden rounded-full bg-white/50 p-3 text-gray-800 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 group-hover:opacity-100 focus-visible:opacity-100 sm:left-4 sm:block"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="h-6 w-6" />
         </button>
 
         <button
-          onClick={(e) => { e.stopPropagation(); next(); }}
-          className="absolute right-2 sm:right-4 z-40 p-3 rounded-full bg-white/30 hover:bg-white text-gray-800 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hidden sm:block active:scale-95"
+          onClick={next}
+          aria-label="Next image"
+          className="absolute right-2 z-40 hidden rounded-full bg-white/50 p-3 text-gray-800 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 group-hover:opacity-100 focus-visible:opacity-100 sm:right-4 sm:block"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="h-6 w-6" />
         </button>
+
+        {/* Counter */}
+        <div className="tnum absolute right-3 top-3 z-40 rounded-full bg-black/45 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md sm:right-5 sm:top-5">
+          {index + 1} / {count}
+        </div>
 
         {images.map((img, i) => {
           const position = getPosition(i);
-          
-          // Enhanced Responsive Styles for 3D Math
-          const styles: Record<string, string> = {
-            center: "z-30 scale-100 opacity-100 cursor-zoom-in shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]",
-            left: "z-20 -translate-x-12 sm:-translate-x-[35%] md:-translate-x-[55%] scale-[0.80] sm:scale-[0.85] opacity-40 hover:opacity-80 cursor-pointer shadow-xl",
-            right: "z-20 translate-x-12 sm:translate-x-[35%] md:translate-x-[55%] scale-[0.80] sm:scale-[0.85] opacity-40 hover:opacity-80 cursor-pointer shadow-xl",
-            hidden: "opacity-0 pointer-events-none scale-75",
+
+          const layer: Record<string, string> = {
+            center:
+              "z-30 scale-100 opacity-100 cursor-zoom-in shadow-[0_30px_70px_-25px_rgba(0,0,0,0.55)]",
+            left: "z-20 -translate-x-[46%] sm:-translate-x-[52%] md:-translate-x-[58%] scale-[0.78] sm:scale-[0.82] opacity-55 hover:opacity-90 cursor-pointer shadow-xl",
+            right:
+              "z-20 translate-x-[46%] sm:translate-x-[52%] md:translate-x-[58%] scale-[0.78] sm:scale-[0.82] opacity-55 hover:opacity-90 cursor-pointer shadow-xl",
+            hidden: "opacity-0 pointer-events-none scale-[0.7]",
           };
 
-          const rotateY = position === "center" ? mouse.x * 10 : position === "left" ? -20 : position === "right" ? 20 : 0;
-          const rotateX = position === "center" ? -mouse.y * 10 : 0;
+          const rotateY =
+            position === "center"
+              ? mouse.x * 9
+              : position === "left"
+                ? -26
+                : position === "right"
+                  ? 26
+                  : 0;
+          const rotateX = position === "center" ? -mouse.y * 8 : 0;
 
           return (
             <motion.div
               key={`image-${i}`}
-              className={cn("absolute transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] rounded-2xl overflow-hidden", styles[position])}
-              style={{ transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)` }}
-              onClick={() => position === "center" ? openLightbox(i) : setIndex(i)}
+              drag={position === "center" ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.14}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -60) next();
+                else if (info.offset.x > 60) prev();
+              }}
+              className={cn(
+                "absolute overflow-hidden rounded-2xl ring-1 ring-black/5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                layer[position],
+              )}
+              style={{
+                transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`,
+                transformStyle: "preserve-3d",
+              }}
+              onClick={() =>
+                position === "center" ? openLightbox(i) : setIndex(i)
+              }
             >
-              <div className="relative w-[180px] sm:w-[380px] md:w-[600px] h-[130px] sm:h-[260px] md:h-[400px]">
-                {/* Glossy Overlay for 3D realism */}
+              <div className="relative h-[140px] w-[210px] sm:h-[260px] sm:w-[390px] md:h-[400px] md:w-[600px]">
+                {/* Glossy pass — sells the 3D on the centre card, dims the sides */}
                 <div
-                  className="absolute inset-0 pointer-events-none z-10 transition-opacity duration-300"
+                  className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
                   style={{
-                    background: position === "center" 
-                      ? `linear-gradient(${120 + mouse.x * 50}deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%)`
-                      : 'rgba(0,0,0,0.2)', // Darken side images
+                    background:
+                      position === "center"
+                        ? `linear-gradient(${118 + mouse.x * 55}deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 48%)`
+                        : "rgba(0,0,0,0.28)",
                   }}
                 />
-                
-                {/* Enlarge Icon (Only on center image hover) */}
+
                 {position === "center" && (
-                  <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                    <div className="p-3 sm:p-4 rounded-full bg-white/20 backdrop-blur-md text-white">
-                      <Maximize2 className="w-6 h-6 sm:w-8 sm:h-8" />
-                    </div>
+                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 hover:opacity-100">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2.5 text-xs font-semibold text-white backdrop-blur-md sm:text-sm">
+                      <Maximize2 className="h-4 w-4" />
+                      View full screen
+                    </span>
                   </div>
                 )}
 
@@ -150,55 +241,74 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
                   className="object-cover"
                   sizes="(max-width:768px) 80vw, 600px"
                   priority={i === 0}
+                  draggable={false}
                 />
               </div>
             </motion.div>
           );
         })}
       </div>
-      
-      <div className="flex justify-center mt-4 sm:mt-6">
-        <p className="inline-flex items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium px-4 py-1.5 rounded-full bg-gray-100/50 border border-gray-200/50">
-          <Maximize2 className="w-3.5 h-3.5 opacity-70" />
-          Click the center image to view full screen
-        </p>
+
+      {/* ---------------- MOBILE CONTROLS ---------------- */}
+      <div className="mt-5 flex items-center justify-center gap-4 sm:hidden">
+        <button
+          onClick={prev}
+          aria-label="Previous image"
+          className="rounded-full border border-primary/20 bg-white p-3 text-secondary shadow-sm transition-transform active:scale-90"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <span className="tnum text-xs font-semibold text-slate-500">
+          Swipe or tap · {index + 1}/{count}
+        </span>
+        <button
+          onClick={next}
+          aria-label="Next image"
+          className="rounded-full border border-primary/20 bg-white p-3 text-secondary shadow-sm transition-transform active:scale-90"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
       </div>
 
-
-      <div className="flex sm:hidden justify-center gap-4 mt-6">
-        <button onClick={prev} className="p-3 rounded-full bg-white border border-gray-200 text-gray-800 shadow-sm active:scale-90 transition-transform">
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button onClick={next} className="p-3 rounded-full bg-white border border-gray-200 text-gray-800 shadow-sm active:scale-90 transition-transform">
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
-
-      <div className="mt-8 md:mt-12 max-w-4xl mx-auto px-2 sm:px-4">
-
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
+      {/* ---------------- THUMBNAIL RAIL ---------------- */}
+      <div className="mt-6 md:mt-8">
+        <div
+          ref={thumbRailRef}
+          className="scroll-rail rail-mask gap-2.5 px-2 py-2 sm:gap-3"
+        >
           {images.map((img, i) => (
             <button
               key={`thumb-${i}`}
+              ref={(el) => {
+                thumbRefs.current[i] = el;
+              }}
               onClick={() => setIndex(i)}
+              aria-label={`Go to image ${i + 1}`}
+              aria-current={i === index}
               className={cn(
-                "relative w-full aspect-video overflow-hidden rounded-xl transition-all duration-300 active:scale-95",
+                "relative h-14 w-20 shrink-0 overflow-hidden rounded-xl transition-all duration-300 sm:h-16 sm:w-24",
                 i === index
-                  ? "ring-2 ring-primary ring-offset-2 ring-offset-[var(--boldtheme)] opacity-100 scale-105 shadow-md z-10"
-                  : "opacity-40 hover:opacity-100"
+                  ? "scale-105 opacity-100 shadow-md ring-2 ring-primary ring-offset-2 ring-offset-[var(--boldtheme)]"
+                  : "opacity-45 hover:opacity-90",
               )}
             >
-              <Image 
-                src={img} 
-                alt={`Thumbnail ${i + 1}`} 
-                fill 
-                className="object-cover" 
-                sizes="(max-width: 768px) 33vw, 20vw"
+              <Image
+                src={img}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="96px"
               />
             </button>
           ))}
         </div>
+
+        <p className="mt-4 text-center text-xs font-medium text-slate-500">
+          Tap the centre photo to open it full screen
+        </p>
       </div>
+
+      {/* ---------------- LIGHTBOX ---------------- */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
@@ -206,45 +316,62 @@ export default function ProjectSlider({ images }: ProjectSliderProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={(e) => {
               if (e.target === e.currentTarget) setLightbox(false);
             }}
           >
+            <div className="tnum absolute left-1/2 top-6 z-50 -translate-x-1/2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white">
+              {lightboxIndex + 1} / {count}
+            </div>
+
             <button
               onClick={() => setLightbox(false)}
-              className="absolute top-6 right-6 z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors active:scale-90"
+              aria-label="Close"
+              className="absolute right-5 top-5 z-50 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/25 active:scale-90"
             >
-              <X className="w-6 h-6" />
+              <X className="h-6 w-6" />
             </button>
 
             <button
-              onClick={(e) => { e.stopPropagation(); prevLightbox(); }}
-              className="absolute left-4 sm:left-8 z-50 p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-colors active:scale-90"
+              onClick={prevLightbox}
+              aria-label="Previous image"
+              className="absolute left-3 z-50 rounded-full bg-white/5 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:left-8 sm:p-4"
             >
-              <ChevronLeft className="w-8 h-8" />
+              <ChevronLeft className="h-7 w-7 sm:h-8 sm:w-8" />
             </button>
 
             <button
-              onClick={(e) => { e.stopPropagation(); nextLightbox(); }}
-              className="absolute right-4 sm:right-8 z-50 p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-colors active:scale-90"
+              onClick={nextLightbox}
+              aria-label="Next image"
+              className="absolute right-3 z-50 rounded-full bg-white/5 p-3 text-white transition-colors hover:bg-white/25 active:scale-90 sm:right-8 sm:p-4"
             >
-              <ChevronRight className="w-8 h-8" />
+              <ChevronRight className="h-7 w-7 sm:h-8 sm:w-8" />
             </button>
 
             <motion.div
               key={lightboxIndex}
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.94, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="relative w-full h-full max-w-6xl max-h-[85vh] p-4 pointer-events-none"
+              exit={{ scale: 0.94, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 28 }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.16}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -70) nextLightbox();
+                else if (info.offset.x > 70) prevLightbox();
+              }}
+              className="relative h-full max-h-[82vh] w-full max-w-6xl p-4"
             >
               <Image
                 src={images[lightboxIndex]}
                 alt="Fullscreen project view"
                 fill
-                className="object-contain pointer-events-auto cursor-default"
-                onClick={(e) => e.stopPropagation()} 
+                className="object-contain"
+                sizes="100vw"
+                draggable={false}
+                onClick={(e) => e.stopPropagation()}
               />
             </motion.div>
           </motion.div>

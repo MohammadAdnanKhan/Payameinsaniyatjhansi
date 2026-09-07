@@ -195,6 +195,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FlipWords } from "../common/flipwords";
+import ValuesPanel from "./ValuesPanel";
 
 export default function AboutHero() {
   return (
@@ -240,28 +241,7 @@ export default function AboutHero() {
             needed most.
           </p>
 
-          <motion.div whileHover={{ scale: 1.02 }} className="relative max-w-xl">
-            <div className="relative bg-[var(--boldtheme)] backdrop-blur-xl border border-primary/10 rounded-2xl p-6 sm:p-8 shadow-xl shadow-primary/5">
-              <p className="text-xs font-heading tracking-widest uppercase text-[var(--color-primary)] mb-5 font-bold">
-                What guides our work
-              </p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                {["Compassion", "Dignity", "Community", "Hope"].map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ y: -4 }}
-                    className="flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-300 cursor-default shadow-sm border border-gray-100"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-[var(--color-primary)] shrink-0"></span>
-                    <span className="text-xs sm:text-sm font-semibold">{item}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          <ValuesPanel />
         </motion.div>
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:hidden mt-4">

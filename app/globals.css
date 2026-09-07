@@ -18,17 +18,14 @@
 
   --theme: #dcfce7;
   --boldtheme: #c7eed8;
-/* 
-  --font-heading: "Poppins", system-ui, sans-serif;
-  --font-body: "Source Sans 3", system-ui, sans-serif; */
 
-  /* --font-heading: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif; */
+  /* Font families are injected by next/font in app/layout.tsx as
+     --font-heading, --font-body and --font-quote. Do not redeclare them
+     here — duplicate declarations on :root shadow the loaded faces and
+     silently fall the whole site back to system-ui. */
 
-  
-  /* --font-heading: "Outfit", system-ui, sans-serif;*/
-  --font-body: "Instrument Sans", system-ui, sans-serif; 
-  --font-heading: "Bricolage Grotesque", sans-serif, "Outfit", system-ui;
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
 @theme inline {
@@ -41,7 +38,9 @@
   --color-muted: var(--color-muted);
 
   --font-sans: var(--font-body);
+  --font-body: var(--font-body);
   --font-heading: var(--font-heading);
+  --font-quote: var(--font-quote);
 }
 
 body {
@@ -49,8 +48,33 @@ body {
   color: var(--foreground);
   font-family: var(--font-body);
   line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt";
+  font-optical-sizing: auto;
 }
 
+/*
+  Fraunces is variable on three axes. SOFT rounds the terminals, WONK swaps in
+  the friendlier single-storey forms, and opsz asks for the display cut — the
+  combination is what keeps a serif from reading stiff or bookish here.
+  Applied to both the elements and the `font-heading` utility, since plenty of
+  headings on the site are spans and buttons rather than h-tags.
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading,
+.eyebrow {
+  font-variation-settings:
+    "SOFT" 26,
+    "WONK" 1,
+    "opsz" 36;
+}
 
 h1,
 h2,
@@ -60,7 +84,39 @@ h5,
 h6 {
   font-family: var(--font-heading);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Editorial serif for pull quotes and emphasis */
+.font-editorial {
+  font-family: var(--font-quote);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Small-caps style eyebrow labels used across sections */
+.eyebrow {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Numeric strings (amounts, counters) line up column-wise */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
 
@@ -194,4 +250,432 @@ body.modal-open .floating-navbar {
 
 .reveal-visible {
   animation: revealUp 0.7s ease forwards;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared surface + motion utilities                                    */
+/* ------------------------------------------------------------------ */
+
+/* Horizontal scroll rails (project tabs, thumbnail strips) */
+.scroll-rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-rail > * {
+  scroll-snap-align: center;
+}
+
+/* Fades the ends of a scroll rail so cut-off items read as "more here" */
+.rail-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+}
+
+/* WhatsApp-style chat wallpaper, built from the site's own greens */
+.chat-wallpaper {
+  background-color: var(--theme);
+  background-image:
+    radial-gradient(
+      circle at 18% 12%,
+      color-mix(in srgb, var(--color-primary) 10%, transparent) 0,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      color-mix(in srgb, var(--color-secondary) 8%, transparent) 0,
+      transparent 44%
+    ),
+    radial-gradient(
+      color-mix(in srgb, var(--color-primary) 16%, transparent) 1px,
+      transparent 1px
+    );
+  background-size:
+    100% 100%,
+    100% 100%,
+    22px 22px;
+  /* Deliberately not `fixed` — iOS Safari repaints fixed backgrounds badly
+     while scrolling a long feed. */
+  background-attachment: scroll;
+}
+
+/* Bubble tail for the news chat cards */
+.bubble-tail::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -9px;
+  width: 18px;
+  height: 18px;
+  background: inherit;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  border-radius: 2px 0 0 0;
+}
+
+/* Fade-out veil over collapsed long content */
+.clamp-veil {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+/* Slow sheen that sweeps across primary buttons on hover */
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.btn-sheen:hover::after,
+.btn-sheen:focus-visible::after {
+  animation: sheen 0.9s var(--ease-out-quint);
+}
+
+/* Typing-indicator dots on the news feed's load-more bubble */
+@keyframes typingDot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* Skeleton shimmer for the news feed */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* Splash screen                                                        */
+/* ------------------------------------------------------------------ */
+
+/* Set by the inline head script when this session has already seen the
+   splash, so it never paints a second time. */
+.splash-done #app-splash {
+  display: none !important;
+}
+
+.splash-root {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      120% 90% at 50% 40%,
+      #ffffff 0%,
+      var(--theme) 45%,
+      var(--boldtheme) 100%
+    );
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.splash-glow {
+  position: absolute;
+  width: min(70vw, 520px);
+  height: min(70vw, 520px);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  filter: blur(90px);
+  opacity: 0;
+  animation: splashGlow 1.5s var(--ease-out-quint) forwards;
+}
+
+.splash-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(140px, 34vw, 210px);
+  height: clamp(140px, 34vw, 210px);
+}
+
+.splash-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+  opacity: 0;
+  transform: scale(0.55);
+  animation: splashRing 2.6s var(--ease-out-quint) infinite;
+}
+
+.splash-ring-2 {
+  animation-delay: 0.45s;
+}
+
+.splash-ring-3 {
+  animation-delay: 0.9s;
+  border-color: color-mix(in srgb, var(--color-secondary) 35%, transparent);
+}
+
+.splash-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(88px, 22vw, 132px);
+  height: clamp(88px, 22vw, 132px);
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow:
+    0 10px 30px -12px color-mix(in srgb, var(--color-primary) 60%, transparent),
+    0 2px 6px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.7);
+  animation: splashMark 0.95s var(--ease-spring) 0.1s forwards;
+}
+
+.splash-logo-img {
+  width: 68%;
+  height: auto;
+  object-fit: contain;
+}
+
+.splash-shine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.85),
+    transparent
+  );
+  transform: translateX(-140%) skewX(-18deg);
+  animation: splashShine 1.25s var(--ease-out-quint) 0.75s;
+}
+
+.splash-word {
+  margin-top: 1.6rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-variation-settings:
+    "SOFT" 26,
+    "WONK" 1,
+    "opsz" 48;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 5.2vw, 2rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--color-secondary);
+}
+
+/* Each word rises in turn */
+.splash-word span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: splashWord 0.6s var(--ease-out-quint) forwards;
+}
+
+.splash-word span:nth-child(1) {
+  animation-delay: 0.5s;
+  color: var(--color-primary);
+}
+.splash-word span:nth-child(2) {
+  animation-delay: 0.58s;
+  color: var(--color-primary);
+}
+.splash-word span:nth-child(3) {
+  animation-delay: 0.66s;
+}
+.splash-word span:nth-child(4) {
+  animation-delay: 0.74s;
+}
+
+.splash-tag {
+  margin-top: 0.55rem;
+  font-size: clamp(0.72rem, 2.8vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
+  opacity: 0;
+  animation: splashFade 0.7s ease 0.95s forwards;
+}
+
+.splash-bar {
+  position: relative;
+  margin-top: 1.75rem;
+  width: min(180px, 45vw);
+  height: 3px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  overflow: hidden;
+}
+
+.splash-bar-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: splashBar 1.5s var(--ease-out-quint) 0.25s forwards;
+}
+
+/* Exit: the whole curtain lifts and dissolves */
+.splash-exit {
+  animation: splashOut 0.7s var(--ease-out-quint) forwards;
+  pointer-events: none;
+}
+
+@keyframes splashGlow {
+  to {
+    opacity: 0.55;
+  }
+}
+
+@keyframes splashMark {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splashShine {
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+
+@keyframes splashRing {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  25% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes splashWord {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splashFade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes splashBar {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes splashOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-2%) scale(1.04);
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/* Respect the OS "reduce motion" setting everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

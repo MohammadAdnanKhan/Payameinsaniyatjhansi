@@ -12,7 +12,7 @@ export default async function NewsPage() {
   const initialNews = await getInitialNews();
 
   return (
-    <main className="min-h-screen bg-theme py-10 px-4">
+    <main className="chat-wallpaper min-h-screen px-4 py-10">
       <div className="relative text-center max-w-4xl mx-auto mb-10 px-4 pt-8 -mt-6">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-primary/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 
@@ -32,7 +32,7 @@ export default async function NewsPage() {
           act of impact.
         </h2>
       </div>
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="mx-auto max-w-2xl pb-10">
         <NewsFeed initialNews={initialNews} />
       </div>
     </main>

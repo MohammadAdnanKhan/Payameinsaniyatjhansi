@@ -166,7 +166,7 @@
 // }
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Poppins, Source_Sans_3 } from "next/font/google";
+import { Fraunces, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -175,20 +175,51 @@ import LogoBar from "@/components/logobar/logobar";
 import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/additional/top";
 import WhatsAppButton from "@/components/additional/whatsappbutton";
+import SplashScreen from "@/components/splash/SplashScreen";
 import { navMenus } from "@/data/navMenus";
 
-const poppins = Poppins({
+/**
+ * Runs before first paint: if this session has already seen the splash, mark
+ * <html> so CSS hides the overlay immediately instead of flashing it again on
+ * every navigation.
+ */
+const SPLASH_GUARD = `try{if(sessionStorage.getItem('pi_splash_seen')==='1'){document.documentElement.classList.add('splash-done')}}catch(e){}`;
+
+/**
+ * Display / headings — Fraunces. A variable display serif with `SOFT` and
+ * `WONK` axes; dialled in below, it stays warm and human rather than stiff or
+ * bookish, which suits an NGO far better than another geometric sans.
+ *
+ * `axes` must list every non-weight axis we intend to use, otherwise next/font
+ * strips them from the subset it generates.
+ */
+const heading = Fraunces({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["400", "500", "600", "700", "800"], 
-  display: "swap", 
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"],
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
-const sourceSans = Source_Sans_3({
+/**
+ * Body — Instrument Sans. A modern grotesque with more personality than the
+ * usual neutral workhorses, and it holds up at small sizes in the news feed.
+ */
+const body = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500", "600"],
   display: "swap",
+  fallback: ["system-ui", "Segoe UI", "sans-serif"],
+});
+
+/* Editorial accent — used for pull quotes and emphasis only */
+const quote = Instrument_Serif({
+  subsets: ["latin"],
+  variable: "--font-quote",
+  weight: ["400"],
+  style: ["normal", "italic"],
+  display: "swap",
+  fallback: ["Georgia", "serif"],
 });
 
 
@@ -259,11 +290,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${sourceSans.variable}`}>
+    <html
+      lang="en"
+      className={`${heading.variable} ${body.variable} ${quote.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SPLASH_GUARD }} />
+      </head>
       <body className="font-body antialiased bg-[var(--theme)] text-[var(--foreground)] overflow-x-hidden flex flex-col min-h-screen">
+        <SplashScreen />
         <FloatingNavbar className="app_nav" navItems={navMenus} audioSrc="/audio/audio.mp3" />
         <LogoBar />
-        
+
         <main className="flex-grow">
           {children}
         </main>

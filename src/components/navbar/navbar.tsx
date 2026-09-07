@@ -105,16 +105,16 @@ const FloatingNavbar = ({
                   aria-label={navItem.name}
                   className="
                     group flex items-center justify-center h-11
-                    font-heading font-semibold text-[var(--foreground)]
+                    font-heading font-extrabold tracking-tight text-[var(--foreground)]
                     transition-all duration-300 hover:text-[var(--color-primary)]
                     active:scale-95
                   "
                 >
                   <span className="relative flex items-center overflow-hidden">
-                    <span className="relative z-10 transition-transform duration-300 group-hover:-translate-y-full text-sm xl:text-base">
+                    <span className="relative z-10 transition-transform duration-300 group-hover:-translate-y-full text-[0.98rem] xl:text-[1.08rem]">
                       {navItem.name}
                     </span>
-                    <span className="absolute inset-0 flex items-center translate-y-full text-[var(--color-primary)] transition-transform duration-300 group-hover:translate-y-0 text-sm xl:text-base">
+                    <span className="absolute inset-0 flex items-center translate-y-full text-[var(--color-primary)] transition-transform duration-300 group-hover:translate-y-0 text-[0.98rem] xl:text-[1.08rem]">
                       {navItem.name}
                     </span>
                   </span>
@@ -223,7 +223,7 @@ const FloatingNavbar = ({
                         transition-transform duration-300 group-hover:scale-110
                       "
                     />
-                    <span className="font-medium text-[var(--foreground)]">
+                    <span className="font-heading text-[1.02rem] font-extrabold tracking-tight text-[var(--foreground)]">
                       {item.name}
                     </span>
                   </Link>
@@ -243,7 +243,7 @@ const FloatingNavbar = ({
                   className="
     flex items-center gap-4 px-4 py-3 rounded-xl
     bg-[var(--color-primary)]/10 text-[var(--color-primary)]
-    font-semibold transition-all duration-300
+    font-heading text-[1.02rem] font-extrabold tracking-tight transition-all duration-300
     hover:bg-[var(--color-primary)] hover:text-white
     active:scale-95 group w-full text-left
   "
